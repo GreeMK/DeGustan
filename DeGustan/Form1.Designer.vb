@@ -220,7 +220,7 @@ Partial Class Form1
         btnMovement.ForeColor = SystemColors.ButtonFace
         btnMovement.Image = CType(resources.GetObject("btnMovement.Image"), Image)
         btnMovement.ImageAlign = ContentAlignment.MiddleLeft
-        btnMovement.Location = New Point(13, 216)
+        btnMovement.Location = New Point(16, 216)
         btnMovement.Name = "btnMovement"
         btnMovement.Size = New Size(275, 58)
         btnMovement.TabIndex = 2
