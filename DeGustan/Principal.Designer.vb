@@ -68,14 +68,14 @@ Partial Class Principal
         Panel1.MaximumSize = New Size(225, 0)
         Panel1.MinimumSize = New Size(85, 0)
         Panel1.Name = "Panel1"
-        Panel1.Size = New Size(225, 773)
+        Panel1.Size = New Size(225, 781)
         Panel1.TabIndex = 0
         ' 
         ' FlowLayoutPanel4
         ' 
         FlowLayoutPanel4.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         FlowLayoutPanel4.BackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
-        FlowLayoutPanel4.Location = New Point(-2, 709)
+        FlowLayoutPanel4.Location = New Point(-2, 717)
         FlowLayoutPanel4.Name = "FlowLayoutPanel4"
         FlowLayoutPanel4.Size = New Size(15, 58)
         FlowLayoutPanel4.TabIndex = 15
@@ -90,7 +90,7 @@ Partial Class Principal
         btnLogOut.ForeColor = SystemColors.ButtonFace
         btnLogOut.Image = My.Resources.Resources.cerrar_sesion1
         btnLogOut.ImageAlign = ContentAlignment.MiddleLeft
-        btnLogOut.Location = New Point(13, 709)
+        btnLogOut.Location = New Point(13, 717)
         btnLogOut.Name = "btnLogOut"
         btnLogOut.Size = New Size(260, 58)
         btnLogOut.TabIndex = 16
@@ -101,7 +101,7 @@ Partial Class Principal
         ' 
         FlowLayoutPanel5.Anchor = AnchorStyles.Left
         FlowLayoutPanel5.BackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
-        FlowLayoutPanel5.Location = New Point(-2, 472)
+        FlowLayoutPanel5.Location = New Point(-2, 468)
         FlowLayoutPanel5.Name = "FlowLayoutPanel5"
         FlowLayoutPanel5.Size = New Size(15, 58)
         FlowLayoutPanel5.TabIndex = 13
@@ -116,7 +116,7 @@ Partial Class Principal
         btnUsers.ForeColor = SystemColors.ButtonFace
         btnUsers.Image = CType(resources.GetObject("btnUsers.Image"), Image)
         btnUsers.ImageAlign = ContentAlignment.MiddleLeft
-        btnUsers.Location = New Point(13, 472)
+        btnUsers.Location = New Point(13, 468)
         btnUsers.Name = "btnUsers"
         btnUsers.Size = New Size(252, 58)
         btnUsers.TabIndex = 14
@@ -127,7 +127,7 @@ Partial Class Principal
         ' 
         FlowLayoutPanel6.Anchor = AnchorStyles.Left
         FlowLayoutPanel6.BackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
-        FlowLayoutPanel6.Location = New Point(-2, 408)
+        FlowLayoutPanel6.Location = New Point(-2, 404)
         FlowLayoutPanel6.Name = "FlowLayoutPanel6"
         FlowLayoutPanel6.Size = New Size(15, 58)
         FlowLayoutPanel6.TabIndex = 11
@@ -142,7 +142,7 @@ Partial Class Principal
         btnSuppliers.ForeColor = SystemColors.ButtonFace
         btnSuppliers.Image = CType(resources.GetObject("btnSuppliers.Image"), Image)
         btnSuppliers.ImageAlign = ContentAlignment.MiddleLeft
-        btnSuppliers.Location = New Point(13, 408)
+        btnSuppliers.Location = New Point(13, 404)
         btnSuppliers.Name = "btnSuppliers"
         btnSuppliers.Size = New Size(280, 58)
         btnSuppliers.TabIndex = 12
@@ -153,7 +153,7 @@ Partial Class Principal
         ' 
         FlowLayoutPanel3.Anchor = AnchorStyles.Left
         FlowLayoutPanel3.BackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
-        FlowLayoutPanel3.Location = New Point(-2, 344)
+        FlowLayoutPanel3.Location = New Point(-2, 340)
         FlowLayoutPanel3.Name = "FlowLayoutPanel3"
         FlowLayoutPanel3.Size = New Size(15, 58)
         FlowLayoutPanel3.TabIndex = 9
@@ -168,7 +168,7 @@ Partial Class Principal
         btnCategorys.ForeColor = SystemColors.ButtonFace
         btnCategorys.Image = CType(resources.GetObject("btnCategorys.Image"), Image)
         btnCategorys.ImageAlign = ContentAlignment.MiddleLeft
-        btnCategorys.Location = New Point(13, 344)
+        btnCategorys.Location = New Point(13, 340)
         btnCategorys.Name = "btnCategorys"
         btnCategorys.Size = New Size(260, 58)
         btnCategorys.TabIndex = 10
@@ -179,7 +179,7 @@ Partial Class Principal
         ' 
         panelButton2.Anchor = AnchorStyles.Left
         panelButton2.BackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
-        panelButton2.Location = New Point(-2, 280)
+        panelButton2.Location = New Point(-2, 276)
         panelButton2.Name = "panelButton2"
         panelButton2.Size = New Size(15, 58)
         panelButton2.TabIndex = 7
@@ -194,7 +194,7 @@ Partial Class Principal
         btnProducts.ForeColor = SystemColors.ButtonFace
         btnProducts.Image = CType(resources.GetObject("btnProducts.Image"), Image)
         btnProducts.ImageAlign = ContentAlignment.MiddleLeft
-        btnProducts.Location = New Point(19, 280)
+        btnProducts.Location = New Point(19, 276)
         btnProducts.Name = "btnProducts"
         btnProducts.Size = New Size(246, 58)
         btnProducts.TabIndex = 8
@@ -205,7 +205,7 @@ Partial Class Principal
         ' 
         FlowLayoutPanel1.Anchor = AnchorStyles.Left
         FlowLayoutPanel1.BackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
-        FlowLayoutPanel1.Location = New Point(-2, 216)
+        FlowLayoutPanel1.Location = New Point(-2, 212)
         FlowLayoutPanel1.Name = "FlowLayoutPanel1"
         FlowLayoutPanel1.Size = New Size(15, 58)
         FlowLayoutPanel1.TabIndex = 2
@@ -220,7 +220,7 @@ Partial Class Principal
         btnMovement.ForeColor = SystemColors.ButtonFace
         btnMovement.Image = CType(resources.GetObject("btnMovement.Image"), Image)
         btnMovement.ImageAlign = ContentAlignment.MiddleLeft
-        btnMovement.Location = New Point(16, 216)
+        btnMovement.Location = New Point(16, 212)
         btnMovement.Name = "btnMovement"
         btnMovement.Size = New Size(275, 58)
         btnMovement.TabIndex = 2
@@ -246,14 +246,14 @@ Partial Class Principal
         PanelContainer.Dock = DockStyle.Fill
         PanelContainer.Location = New Point(225, 0)
         PanelContainer.Name = "PanelContainer"
-        PanelContainer.Size = New Size(1227, 773)
+        PanelContainer.Size = New Size(1229, 781)
         PanelContainer.TabIndex = 2
         ' 
         ' pcbBackground
         ' 
         pcbBackground.Anchor = AnchorStyles.None
         pcbBackground.Image = My.Resources.Resources.logo
-        pcbBackground.Location = New Point(276, 180)
+        pcbBackground.Location = New Point(277, 184)
         pcbBackground.Name = "pcbBackground"
         pcbBackground.Size = New Size(675, 412)
         pcbBackground.SizeMode = PictureBoxSizeMode.Zoom
@@ -262,10 +262,10 @@ Partial Class Principal
         ' 
         ' Principal
         ' 
-        AutoScaleDimensions = New SizeF(9F, 23F)
+        AutoScaleDimensions = New SizeF(7F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
-        ClientSize = New Size(1452, 773)
+        ClientSize = New Size(1454, 781)
         Controls.Add(PanelContainer)
         Controls.Add(Panel1)
         Font = New Font("Segoe UI", 10F)
