@@ -1,4 +1,4 @@
-﻿Public Class Form1
+﻿Public Class Principal
     Private minWitdh As Integer = 85
     Private maxWidth As Integer = 300
     Private expand As Boolean = False
@@ -59,6 +59,22 @@
 
     Private Sub btnMovement_Click(sender As Object, e As EventArgs) Handles btnMovement.Click
         OpenChildForm(New Movimientos())
+    End Sub
+
+    Private Sub btnProducts_Click(sender As Object, e As EventArgs) Handles btnProducts.Click
+        OpenChildForm(New Productos())
+    End Sub
+
+    Private Sub btnSuppliers_Click(sender As Object, e As EventArgs) Handles btnSuppliers.Click
+        OpenChildForm(New proveedores())
+    End Sub
+
+    Private Sub btnCategorys_Click(sender As Object, e As EventArgs) Handles btnCategorys.Click
+        OpenChildForm(New Categorias())
+    End Sub
+
+    Private Sub btnUsers_Click(sender As Object, e As EventArgs) Handles btnUsers.Click
+        OpenChildForm(New Usuarios())
     End Sub
 End Class
 

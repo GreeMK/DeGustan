@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Form1
+Partial Class Principal
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Principal))
         Panel1 = New Panel()
         FlowLayoutPanel4 = New FlowLayoutPanel()
         btnLogOut = New Button()
@@ -260,7 +260,7 @@ Partial Class Form1
         pcbBackground.TabIndex = 2
         pcbBackground.TabStop = False
         ' 
-        ' Form1
+        ' Principal
         ' 
         AutoScaleDimensions = New SizeF(9F, 23F)
         AutoScaleMode = AutoScaleMode.Font
@@ -271,7 +271,7 @@ Partial Class Form1
         Font = New Font("Segoe UI", 10F)
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MinimumSize = New Size(1470, 820)
-        Name = "Form1"
+        Name = "Principal"
         Panel1.ResumeLayout(False)
         CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
         PanelContainer.ResumeLayout(False)

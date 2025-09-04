@@ -197,7 +197,7 @@ Partial Class Movimientos
         ' 
         ' DataGridView1
         ' 
-        DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Location = New Point(578, 206)
         DataGridView1.Name = "DataGridView1"
@@ -208,7 +208,7 @@ Partial Class Movimientos
         ' PictureBox7
         ' 
         PictureBox7.Image = My.Resources.Resources.loguito
-        PictureBox7.Location = New Point(173, 31)
+        PictureBox7.Location = New Point(182, 31)
         PictureBox7.Name = "PictureBox7"
         PictureBox7.Size = New Size(188, 133)
         PictureBox7.SizeMode = PictureBoxSizeMode.Zoom
