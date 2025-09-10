@@ -1,6 +1,6 @@
 ﻿Public Class Principal
-    Private minWitdh As Integer = 85
-    Private maxWidth As Integer = 300
+    Private minWitdh As Integer = 85    ' Ancho minimo del panel lateral
+    Private maxWidth As Integer = 300   ' Ancho maximo del panel lateral
     Private expand As Boolean = False
     Private currentForm As Form = Nothing
     Private Sub OpenChildForm(childForm As Form)    ' Sub para abrir formularios hijos dentro del panel

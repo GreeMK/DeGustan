@@ -25,9 +25,9 @@ Partial Class Categorias
         btnClose = New Button()
         PictureBox7 = New PictureBox()
         GroupBox1 = New GroupBox()
-        ComboBox1 = New ComboBox()
-        TextBox3 = New TextBox()
-        TextBox2 = New TextBox()
+        cmbActive = New ComboBox()
+        tbDesc = New TextBox()
+        tbName = New TextBox()
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
@@ -71,9 +71,9 @@ Partial Class Categorias
         ' GroupBox1
         ' 
         GroupBox1.Anchor = AnchorStyles.Left
-        GroupBox1.Controls.Add(ComboBox1)
-        GroupBox1.Controls.Add(TextBox3)
-        GroupBox1.Controls.Add(TextBox2)
+        GroupBox1.Controls.Add(cmbActive)
+        GroupBox1.Controls.Add(tbDesc)
+        GroupBox1.Controls.Add(tbName)
         GroupBox1.Controls.Add(Label3)
         GroupBox1.Controls.Add(Label2)
         GroupBox1.Controls.Add(Label1)
@@ -87,30 +87,30 @@ Partial Class Categorias
         GroupBox1.TabStop = False
         GroupBox1.Text = "Datos"
         ' 
-        ' ComboBox1
+        ' cmbActive
         ' 
-        ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(150, 100)
-        ComboBox1.Margin = New Padding(3, 2, 3, 2)
-        ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(154, 23)
-        ComboBox1.TabIndex = 16
+        cmbActive.FormattingEnabled = True
+        cmbActive.Location = New Point(150, 100)
+        cmbActive.Margin = New Padding(3, 2, 3, 2)
+        cmbActive.Name = "cmbActive"
+        cmbActive.Size = New Size(154, 23)
+        cmbActive.TabIndex = 16
         ' 
-        ' TextBox3
+        ' tbDesc
         ' 
-        TextBox3.Location = New Point(150, 61)
-        TextBox3.Margin = New Padding(3, 2, 3, 2)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(154, 23)
-        TextBox3.TabIndex = 15
+        tbDesc.Location = New Point(150, 61)
+        tbDesc.Margin = New Padding(3, 2, 3, 2)
+        tbDesc.Name = "tbDesc"
+        tbDesc.Size = New Size(154, 23)
+        tbDesc.TabIndex = 15
         ' 
-        ' TextBox2
+        ' tbName
         ' 
-        TextBox2.Location = New Point(150, 20)
-        TextBox2.Margin = New Padding(3, 2, 3, 2)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(154, 23)
-        TextBox2.TabIndex = 14
+        tbName.Location = New Point(150, 20)
+        tbName.Margin = New Padding(3, 2, 3, 2)
+        tbName.Name = "tbName"
+        tbName.Size = New Size(154, 23)
+        tbName.TabIndex = 14
         ' 
         ' Label3
         ' 
@@ -297,9 +297,9 @@ Partial Class Categorias
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnNew As Button
     Friend WithEvents btnAdd As Button
-    Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents cmbActive As ComboBox
+    Friend WithEvents tbDesc As TextBox
+    Friend WithEvents tbName As TextBox
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents btnSearch As Button
