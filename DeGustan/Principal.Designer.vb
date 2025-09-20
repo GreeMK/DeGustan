@@ -272,6 +272,9 @@ Partial Class Principal
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         MinimumSize = New Size(1470, 820)
         Name = "Principal"
+        SizeGripStyle = SizeGripStyle.Show
+        StartPosition = FormStartPosition.CenterScreen
+        WindowState = FormWindowState.Maximized
         Panel1.ResumeLayout(False)
         CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
         PanelContainer.ResumeLayout(False)

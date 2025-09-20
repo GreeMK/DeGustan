@@ -11,7 +11,7 @@ Module ConnectorBD
             conexion = New MySqlConnection
 
             Dim cadena As String
-            cadena = My.Computer.FileSystem.ReadAllText(My.Application.Info.DirectoryPath + "\dataConnect.txt")
+            cadena = My.Computer.FileSystem.ReadAllText(My.Application.Info.DirectoryPath + "/dataConnect.txt")
 
             ' Configuro la propiedad de conexion
             conexion.ConnectionString = cadena

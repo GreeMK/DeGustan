@@ -1,4 +1,6 @@
-﻿Public Class Principal
+﻿Imports MySql.Data.MySqlClient
+
+Public Class Principal
     Private minWitdh As Integer = 85    ' Ancho minimo del panel lateral
     Private maxWidth As Integer = 300   ' Ancho maximo del panel lateral
     Private expand As Boolean = False
@@ -75,6 +77,10 @@
 
     Private Sub btnUsers_Click(sender As Object, e As EventArgs) Handles btnUsers.Click
         OpenChildForm(New Usuarios())
+    End Sub
+
+    Private Sub PanelContainer_Paint(sender As Object, e As PaintEventArgs) Handles PanelContainer.Paint
+
     End Sub
 End Class
 

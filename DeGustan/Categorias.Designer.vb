@@ -25,8 +25,8 @@ Partial Class Categorias
         btnClose = New Button()
         PictureBox7 = New PictureBox()
         GroupBox1 = New GroupBox()
+        rtbDesc = New RichTextBox()
         cmbActive = New ComboBox()
-        tbDesc = New TextBox()
         tbName = New TextBox()
         Label3 = New Label()
         Label2 = New Label()
@@ -38,12 +38,17 @@ Partial Class Categorias
         TextBox5 = New TextBox()
         btnSearch = New Button()
         Label8 = New Label()
-        DataGridView1 = New DataGridView()
-        Label12 = New Label()
+        lvDataGrid = New ListView()
+        colID = New ColumnHeader()
+        colName = New ColumnHeader()
+        colDescription = New ColumnHeader()
+        colActive = New ColumnHeader()
+        colCreated = New ColumnHeader()
+        colUpdated = New ColumnHeader()
+        btnModify = New Button()
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' btnClose
@@ -71,38 +76,38 @@ Partial Class Categorias
         ' GroupBox1
         ' 
         GroupBox1.Anchor = AnchorStyles.Left
+        GroupBox1.Controls.Add(rtbDesc)
         GroupBox1.Controls.Add(cmbActive)
-        GroupBox1.Controls.Add(tbDesc)
         GroupBox1.Controls.Add(tbName)
         GroupBox1.Controls.Add(Label3)
         GroupBox1.Controls.Add(Label2)
         GroupBox1.Controls.Add(Label1)
         GroupBox1.ForeColor = SystemColors.Control
-        GroupBox1.Location = New Point(60, 293)
+        GroupBox1.Location = New Point(60, 272)
         GroupBox1.Margin = New Padding(3, 2, 3, 2)
         GroupBox1.Name = "GroupBox1"
         GroupBox1.Padding = New Padding(3, 2, 3, 2)
-        GroupBox1.Size = New Size(360, 141)
+        GroupBox1.Size = New Size(360, 210)
         GroupBox1.TabIndex = 19
         GroupBox1.TabStop = False
         GroupBox1.Text = "Datos"
         ' 
+        ' rtbDesc
+        ' 
+        rtbDesc.Location = New Point(150, 51)
+        rtbDesc.Name = "rtbDesc"
+        rtbDesc.Size = New Size(154, 96)
+        rtbDesc.TabIndex = 17
+        rtbDesc.Text = ""
+        ' 
         ' cmbActive
         ' 
         cmbActive.FormattingEnabled = True
-        cmbActive.Location = New Point(150, 100)
+        cmbActive.Location = New Point(150, 157)
         cmbActive.Margin = New Padding(3, 2, 3, 2)
         cmbActive.Name = "cmbActive"
         cmbActive.Size = New Size(154, 23)
         cmbActive.TabIndex = 16
-        ' 
-        ' tbDesc
-        ' 
-        tbDesc.Location = New Point(150, 61)
-        tbDesc.Margin = New Padding(3, 2, 3, 2)
-        tbDesc.Name = "tbDesc"
-        tbDesc.Size = New Size(154, 23)
-        tbDesc.TabIndex = 15
         ' 
         ' tbName
         ' 
@@ -116,7 +121,7 @@ Partial Class Categorias
         ' 
         Label3.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label3.AutoSize = True
-        Label3.Location = New Point(10, 103)
+        Label3.Location = New Point(10, 160)
         Label3.Name = "Label3"
         Label3.Size = New Size(41, 15)
         Label3.TabIndex = 10
@@ -149,7 +154,7 @@ Partial Class Categorias
         btnDelete.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnDelete.FlatStyle = FlatStyle.Flat
         btnDelete.ForeColor = SystemColors.Control
-        btnDelete.Location = New Point(328, 596)
+        btnDelete.Location = New Point(194, 671)
         btnDelete.Margin = New Padding(3, 2, 3, 2)
         btnDelete.Name = "btnDelete"
         btnDelete.Size = New Size(92, 32)
@@ -236,37 +241,71 @@ Partial Class Categorias
         Label8.TabIndex = 8
         Label8.Text = "Nombre"
         ' 
-        ' DataGridView1
+        ' lvDataGrid
         ' 
-        DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(516, 150)
-        DataGridView1.Margin = New Padding(3, 2, 3, 2)
-        DataGridView1.Name = "DataGridView1"
-        DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(673, 599)
-        DataGridView1.TabIndex = 22
+        lvDataGrid.Anchor = AnchorStyles.None
+        lvDataGrid.Columns.AddRange(New ColumnHeader() {colID, colName, colDescription, colActive, colCreated, colUpdated})
+        lvDataGrid.FullRowSelect = True
+        lvDataGrid.Location = New Point(537, 197)
+        lvDataGrid.Name = "lvDataGrid"
+        lvDataGrid.Size = New Size(639, 515)
+        lvDataGrid.TabIndex = 22
+        lvDataGrid.UseCompatibleStateImageBehavior = False
+        lvDataGrid.View = View.Details
         ' 
-        ' Label12
+        ' colID
         ' 
-        Label12.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        Label12.AutoSize = True
-        Label12.Font = New Font("Segoe UI", 12F)
-        Label12.ForeColor = Color.FromArgb(CByte(198), CByte(149), CByte(72))
-        Label12.Location = New Point(1088, 3)
-        Label12.Name = "Label12"
-        Label12.Size = New Size(84, 21)
-        Label12.TabIndex = 23
-        Label12.Text = "Categorías"
+        colID.Text = ""
+        colID.Width = 0
+        ' 
+        ' colName
+        ' 
+        colName.Text = "Nombre"
+        colName.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colDescription
+        ' 
+        colDescription.Text = "Descripcion"
+        colDescription.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colActive
+        ' 
+        colActive.Text = "Activo"
+        colActive.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colCreated
+        ' 
+        colCreated.Text = "Creado"
+        colCreated.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colUpdated
+        ' 
+        colUpdated.Text = "Actualizado"
+        colUpdated.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' btnModify
+        ' 
+        btnModify.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        btnModify.FlatAppearance.BorderColor = Color.FromArgb(CByte(198), CByte(149), CByte(72))
+        btnModify.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
+        btnModify.FlatStyle = FlatStyle.Flat
+        btnModify.ForeColor = SystemColors.Control
+        btnModify.Location = New Point(328, 596)
+        btnModify.Margin = New Padding(3, 2, 3, 2)
+        btnModify.Name = "btnModify"
+        btnModify.Size = New Size(92, 32)
+        btnModify.TabIndex = 23
+        btnModify.Text = "Modificar"
+        btnModify.UseVisualStyleBackColor = True
         ' 
         ' Categorias
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
         ClientSize = New Size(1229, 781)
-        Controls.Add(Label12)
-        Controls.Add(DataGridView1)
+        Controls.Add(btnModify)
+        Controls.Add(lvDataGrid)
         Controls.Add(GroupBox2)
         Controls.Add(PictureBox7)
         Controls.Add(GroupBox1)
@@ -283,9 +322,7 @@ Partial Class Categorias
         GroupBox1.PerformLayout()
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
-        PerformLayout()
     End Sub
 
     Friend WithEvents btnClose As Button
@@ -304,6 +341,13 @@ Partial Class Categorias
     Friend WithEvents TextBox5 As TextBox
     Friend WithEvents btnSearch As Button
     Friend WithEvents Label8 As Label
-    Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents Label12 As Label
+    Friend WithEvents lvDataGrid As ListView
+    Friend WithEvents colID As ColumnHeader
+    Friend WithEvents colName As ColumnHeader
+    Friend WithEvents colDescription As ColumnHeader
+    Friend WithEvents colActive As ColumnHeader
+    Friend WithEvents colCreated As ColumnHeader
+    Friend WithEvents colUpdated As ColumnHeader
+    Friend WithEvents rtbDesc As RichTextBox
+    Friend WithEvents btnModify As Button
 End Class
