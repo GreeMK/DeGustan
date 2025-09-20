@@ -22,6 +22,7 @@ Partial Class Categorias
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         btnClose = New Button()
         PictureBox7 = New PictureBox()
         GroupBox1 = New GroupBox()
@@ -35,7 +36,7 @@ Partial Class Categorias
         btnNew = New Button()
         btnAdd = New Button()
         GroupBox2 = New GroupBox()
-        TextBox5 = New TextBox()
+        tbNameQuery = New TextBox()
         btnSearch = New Button()
         Label8 = New Label()
         lvDataGrid = New ListView()
@@ -46,6 +47,7 @@ Partial Class Categorias
         colCreated = New ColumnHeader()
         colUpdated = New ColumnHeader()
         btnModify = New Button()
+        tmrSearch = New Timer(components)
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
@@ -195,7 +197,7 @@ Partial Class Categorias
         ' GroupBox2
         ' 
         GroupBox2.Anchor = AnchorStyles.Top
-        GroupBox2.Controls.Add(TextBox5)
+        GroupBox2.Controls.Add(tbNameQuery)
         GroupBox2.Controls.Add(btnSearch)
         GroupBox2.Controls.Add(Label8)
         GroupBox2.ForeColor = SystemColors.Control
@@ -208,13 +210,13 @@ Partial Class Categorias
         GroupBox2.TabStop = False
         GroupBox2.Text = "Consultas"
         ' 
-        ' TextBox5
+        ' tbNameQuery
         ' 
-        TextBox5.Location = New Point(149, 20)
-        TextBox5.Margin = New Padding(3, 2, 3, 2)
-        TextBox5.Name = "TextBox5"
-        TextBox5.Size = New Size(154, 23)
-        TextBox5.TabIndex = 12
+        tbNameQuery.Location = New Point(149, 20)
+        tbNameQuery.Margin = New Padding(3, 2, 3, 2)
+        tbNameQuery.Name = "tbNameQuery"
+        tbNameQuery.Size = New Size(154, 23)
+        tbNameQuery.TabIndex = 12
         ' 
         ' btnSearch
         ' 
@@ -298,6 +300,10 @@ Partial Class Categorias
         btnModify.Text = "Modificar"
         btnModify.UseVisualStyleBackColor = True
         ' 
+        ' tmrSearch
+        ' 
+        tmrSearch.Interval = 400
+        ' 
         ' Categorias
         ' 
         AutoScaleDimensions = New SizeF(7.0F, 15.0F)
@@ -338,7 +344,7 @@ Partial Class Categorias
     Friend WithEvents tbDesc As TextBox
     Friend WithEvents tbName As TextBox
     Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents TextBox5 As TextBox
+    Friend WithEvents tbNameQuery As TextBox
     Friend WithEvents btnSearch As Button
     Friend WithEvents Label8 As Label
     Friend WithEvents lvDataGrid As ListView
@@ -350,4 +356,5 @@ Partial Class Categorias
     Friend WithEvents colUpdated As ColumnHeader
     Friend WithEvents rtbDesc As RichTextBox
     Friend WithEvents btnModify As Button
+    Friend WithEvents tmrSearch As Timer
 End Class

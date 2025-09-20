@@ -70,9 +70,35 @@ Public Class Categorias
         Next
     End Sub
 
+    Private Sub CargarSugerencias(filtro As String)
+        Try
+            conexion.Open()
+            Dim query = "SELECT nombre FROM categorias WHERE nombre LIKE @nombre"
+            Dim cmd = New MySqlCommand(query, conexion)
+            cmd.Parameters.AddWithValue("@nombre", "%" & filtro & "%")
+            Dim reader = cmd.ExecuteReader()
+            Dim autoComplete As New AutoCompleteStringCollection()
+            If reader.HasRows Then
+                Do While reader.Read()
+                    autoComplete.Add(reader("nombre").ToString())
+                Loop
+            End If
+            tbNameQuery.AutoCompleteCustomSource = autoComplete
+            reader.Close()
+            conexion.Close()
+
+        Catch ex As Exception
+            MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
+        End Try
+    End Sub
+
     Private Sub Categorias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Llamo a la subrutina para conectar a la base de datos
         Conectar()
+
+        ' Configuro el textbox para busqueda auto asistida
+        tbNameQuery.AutoCompleteMode = AutoCompleteMode.Suggest
+        tbNameQuery.AutoCompleteSource = AutoCompleteSource.CustomSource
 
         ' Configuro el ComboBox para el estado activo/inactivo
         cmbActive.Items.Add("Activo")
@@ -93,6 +119,8 @@ Public Class Categorias
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
 
         clearForm()
+        cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
+        tbNameQuery.Text = ""
 
     End Sub
 
@@ -211,5 +239,52 @@ Public Class Categorias
             MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
         End Try
 
+    End Sub
+
+    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        If tbNameQuery.Text.Trim() = "" Then
+            MsgBox("Por favor, ingrese un nombre para buscar.", MsgBoxStyle.Exclamation, "Campo vacío")
+            Exit Sub
+        End If
+
+        Dim nombreQuery As String = tbNameQuery.Text.Trim()
+
+        Try
+            conexion.Open()
+
+            Dim query = "SELECT * FROM categorias WHERE nombre LIKE @nombre ORDER BY id"
+            Dim cmd = New MySqlCommand(query, conexion) ' Uso Using para asegurar el cierre del comando
+            cmd.Parameters.AddWithValue("@nombre", "%" & nombreQuery & "%")
+            Dim reader = cmd.ExecuteReader() ' Uso Using para asegurar el cierre del reader
+            If reader.HasRows Then
+                lvDataGrid.Items.Clear()
+                Dim lvItem As New ListViewItem
+                Do While reader.Read()
+                    lvItem = lvDataGrid.Items.Add(reader("id"))
+                    lvItem.SubItems.Add(reader("nombre"))
+                    lvItem.SubItems.Add(reader("descripcion"))
+                    lvItem.SubItems.Add(If(reader("activo") = True, "Sí", "No"))
+                    lvItem.SubItems.Add(reader("created_at"))
+                    lvItem.SubItems.Add(reader("updated_at"))
+                Loop
+            Else
+                MsgBox("No se encontraron categorías con ese nombre.", MsgBoxStyle.Information, "Sin resultados")
+                cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
+            End If
+            reader.Close()
+            conexion.Close()
+            clearForm()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub tbNameQuery_TextChanged(sender As Object, e As EventArgs) Handles tbNameQuery.TextChanged
+        If tbNameQuery.Text.Length >= 2 Then
+            CargarSugerencias(tbNameQuery.Text)
+
+
+        End If
     End Sub
 End Class
