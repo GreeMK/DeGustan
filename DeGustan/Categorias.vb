@@ -1,5 +1,4 @@
 ﻿Imports MySql.Data.MySqlClient
-Imports DeGustan.ConnectorBD
 
 Public Class Categorias
     ' Subrutina para limpiar los campos del formulario
@@ -9,7 +8,7 @@ Public Class Categorias
         cmbActive.SelectedIndex = 0
     End Sub
 
-    Private Sub cargarCategorias(orden)
+    Private Sub cargarCategorias(orden As String)
         ' Aquí iría el código para cargar las categorías desde la base de datos
         ' y llenar el DataGridView (dgvCategories)
         Try
@@ -21,12 +20,12 @@ Public Class Categorias
             Dim reader = cmd.ExecuteReader()
 
             If reader.HasRows Then
-                lvDataGrid.Items.Clear()
+                lvDataGridCat.Items.Clear()
 
                 Dim lvItem As New ListViewItem
 
                 Do While reader.Read()
-                    lvItem = lvDataGrid.Items.Add(reader("id"))
+                    lvItem = lvDataGridCat.Items.Add(reader("id"))
                     lvItem.SubItems.Add(reader("nombre"))
                     lvItem.SubItems.Add(reader("descripcion"))
                     lvItem.SubItems.Add(If(reader("activo") = True, "Sí", "No"))
@@ -38,24 +37,24 @@ Public Class Categorias
             reader.Close()
             conexion.Close()
         Catch ex As Exception
-
+            MsgBox(ex.Message)
         End Try
     End Sub
 
     Private Sub AjustarColumnas()
         ' Verificamos que haya columnas
-        If lvDataGrid.Columns.Count = 0 Then Exit Sub
+        If lvDataGridCat.Columns.Count = 0 Then Exit Sub
 
         ' Defino la columna excluida
         Dim colExcluded As Integer = 0 ' Valor del indice de la columna a excluir
-        lvDataGrid.Columns(colExcluded).Width = 0 ' Le doy un ancho de 0 para ocultarla
+        lvDataGridCat.Columns(colExcluded).Width = 0 ' Le doy un ancho de 0 para ocultarla
 
         ' Obtenemos el ancho total del ListView
-        Dim anchoTotal As Integer = lvDataGrid.ClientSize.Width
-        Dim anchoRest As Integer = anchoTotal - lvDataGrid.Columns(colExcluded).Width
+        Dim anchoTotal As Integer = lvDataGridCat.ClientSize.Width
+        Dim anchoRest As Integer = anchoTotal - lvDataGridCat.Columns(colExcluded).Width
 
         ' Calculo cuantas columnas quedan para ajustar
-        Dim numColsAjustar As Integer = lvDataGrid.Columns.Count - 1
+        Dim numColsAjustar As Integer = lvDataGridCat.Columns.Count - 1
 
         If numColsAjustar <= 0 Then Exit Sub
 
@@ -63,26 +62,32 @@ Public Class Categorias
         Dim anchoColumna As Integer = anchoTotal \ numColsAjustar
 
         ' Ajustamos cada columna
-        For i As Integer = 0 To lvDataGrid.Columns.Count - 1
+        For i As Integer = 0 To lvDataGridCat.Columns.Count - 1
             If i <> colExcluded Then
-                lvDataGrid.Columns(i).Width = anchoColumna
+                lvDataGridCat.Columns(i).Width = anchoColumna
             End If
         Next
     End Sub
 
-    Private Sub CargarSugerencias(filtro As String)
+    Private Sub CargarSugerencias()
+        ' Sub para cargar las sugerencias de nombres de categorías en el TextBox de búsqueda
         Try
-            conexion.Open()
-            Dim query = "SELECT nombre FROM categorias WHERE nombre LIKE @nombre"
-            Dim cmd = New MySqlCommand(query, conexion)
-            cmd.Parameters.AddWithValue("@nombre", "%" & filtro & "%")
-            Dim reader = cmd.ExecuteReader()
             Dim autoComplete As New AutoCompleteStringCollection()
+
+            conexion.Open()
+
+            Dim query = "SELECT nombre FROM categorias"
+            Dim cmd = New MySqlCommand(query, conexion)
+            Dim reader = cmd.ExecuteReader()
+
             If reader.HasRows Then
+
                 Do While reader.Read()
                     autoComplete.Add(reader("nombre").ToString())
                 Loop
+
             End If
+
             tbNameQuery.AutoCompleteCustomSource = autoComplete
             reader.Close()
             conexion.Close()
@@ -109,6 +114,7 @@ Public Class Categorias
 
         cargarCategorias("id")  ' Cargo las categorías ordenadas por ID
 
+        CargarSugerencias()
 
     End Sub
 
@@ -121,6 +127,7 @@ Public Class Categorias
         clearForm()
         cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
         tbNameQuery.Text = ""
+
 
     End Sub
 
@@ -155,6 +162,7 @@ Public Class Categorias
             clearForm()
             conexion.Close()
             cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
+            CargarSugerencias()
         Catch ex As Exception
             MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
         End Try
@@ -162,12 +170,12 @@ Public Class Categorias
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        If lvDataGrid.SelectedItems.Count = 0 Then ' verifico que haya una fila seleccionada
+        If lvDataGridCat.SelectedItems.Count = 0 Then ' verifico que haya una fila seleccionada
             MsgBox("Por favor, seleccione una categoría para eliminar.", MsgBoxStyle.Exclamation, "Selección requerida")
             Exit Sub
         End If
 
-        Dim selectedId As Integer = Convert.ToInt32(lvDataGrid.SelectedItems(0).Text) ' convierto el ID seleccionado a Integer
+        Dim selectedId As Integer = Convert.ToInt32(lvDataGridCat.SelectedItems(0).Text) ' convierto el ID seleccionado a Integer
         Dim confirmResult = MessageBox.Show("¿Está seguro de que desea eliminar la categoría seleccionada?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If confirmResult = DialogResult.Yes Then
@@ -182,6 +190,7 @@ Public Class Categorias
                 conexion.Close()
                 clearForm()
                 cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
+                CargarSugerencias()
             Catch ex As Exception
                 MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
             End Try
@@ -189,11 +198,11 @@ Public Class Categorias
 
     End Sub
 
-    Private Sub lvDataGrid_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvDataGrid.SelectedIndexChanged
+    Private Sub lvDataGrid_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvDataGridCat.SelectedIndexChanged
         ' Muestro los datos de la fila seleccionada en los campos del formulario
-        tbName.Text = lvDataGrid.Items(lvDataGrid.FocusedItem.Index).SubItems(1).Text
-        rtbDesc.Text = lvDataGrid.Items(lvDataGrid.FocusedItem.Index).SubItems(2).Text
-        If lvDataGrid.Items(lvDataGrid.FocusedItem.Index).SubItems(3).Text = "Sí" Then
+        tbName.Text = lvDataGridCat.Items(lvDataGridCat.FocusedItem.Index).SubItems(1).Text
+        rtbDesc.Text = lvDataGridCat.Items(lvDataGridCat.FocusedItem.Index).SubItems(2).Text
+        If lvDataGridCat.Items(lvDataGridCat.FocusedItem.Index).SubItems(3).Text = "Sí" Then
             cmbActive.SelectedIndex = 0
         Else
             cmbActive.SelectedIndex = 1
@@ -201,12 +210,12 @@ Public Class Categorias
     End Sub
 
     Private Sub btnModify_Click(sender As Object, e As EventArgs) Handles btnModify.Click
-        If lvDataGrid.SelectedItems.Count = 0 Then ' verifico que haya una fila seleccionada
+        If lvDataGridCat.SelectedItems.Count = 0 Then ' verifico que haya una fila seleccionada
             MsgBox("Por favor, seleccione una categoría para eliminar.", MsgBoxStyle.Exclamation, "Selección requerida")
             Exit Sub
         End If
 
-        Dim selectedId As Integer = Convert.ToInt32(lvDataGrid.SelectedItems(0).Text) ' convierto el ID seleccionado a Integer
+        Dim selectedId As Integer = Convert.ToInt32(lvDataGridCat.SelectedItems(0).Text) ' convierto el ID seleccionado a Integer
 
         If tbName.Text.Trim() = "" Or rtbDesc.Text.Trim() = "" Then
             MsgBox("Por favor, complete todos los campos.", MsgBoxStyle.Exclamation, "Campos incompletos")
@@ -235,6 +244,7 @@ Public Class Categorias
             clearForm()
             conexion.Close()
             cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
+            CargarSugerencias()
         Catch ex As Exception
             MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
         End Try
@@ -257,10 +267,10 @@ Public Class Categorias
             cmd.Parameters.AddWithValue("@nombre", "%" & nombreQuery & "%")
             Dim reader = cmd.ExecuteReader() ' Uso Using para asegurar el cierre del reader
             If reader.HasRows Then
-                lvDataGrid.Items.Clear()
+                lvDataGridCat.Items.Clear()
                 Dim lvItem As New ListViewItem
                 Do While reader.Read()
-                    lvItem = lvDataGrid.Items.Add(reader("id"))
+                    lvItem = lvDataGridCat.Items.Add(reader("id"))
                     lvItem.SubItems.Add(reader("nombre"))
                     lvItem.SubItems.Add(reader("descripcion"))
                     lvItem.SubItems.Add(If(reader("activo") = True, "Sí", "No"))
@@ -280,11 +290,4 @@ Public Class Categorias
         End Try
     End Sub
 
-    Private Sub tbNameQuery_TextChanged(sender As Object, e As EventArgs) Handles tbNameQuery.TextChanged
-        If tbNameQuery.Text.Length >= 2 Then
-            CargarSugerencias(tbNameQuery.Text)
-
-
-        End If
-    End Sub
 End Class

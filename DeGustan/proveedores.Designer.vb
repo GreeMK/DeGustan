@@ -24,15 +24,15 @@ Partial Class proveedores
     Private Sub InitializeComponent()
         PictureBox7 = New PictureBox()
         GroupBox1 = New GroupBox()
-        ComboBox1 = New ComboBox()
+        cmbActive = New ComboBox()
         Label6 = New Label()
-        TextBox4 = New TextBox()
+        tbAddress = New TextBox()
         Label5 = New Label()
-        TextBox1 = New TextBox()
-        TextBox3 = New TextBox()
-        TextBox2 = New TextBox()
+        tbPhone = New TextBox()
+        tbCuit = New TextBox()
+        tbName = New TextBox()
         Label4 = New Label()
-        tbNumber = New TextBox()
+        tbEmail = New TextBox()
         Label3 = New Label()
         Label2 = New Label()
         Label1 = New Label()
@@ -42,17 +42,25 @@ Partial Class proveedores
         btnModify = New Button()
         btnClose = New Button()
         GroupBox2 = New GroupBox()
-        TextBox6 = New TextBox()
-        TextBox5 = New TextBox()
+        tbCuitQuery = New TextBox()
+        tbNameQuery = New TextBox()
         btnSearch = New Button()
         Label7 = New Label()
         Label8 = New Label()
-        DataGridView1 = New DataGridView()
         Label12 = New Label()
+        lvDataGridSup = New ListView()
+        colID = New ColumnHeader()
+        colName = New ColumnHeader()
+        colCuit = New ColumnHeader()
+        colEmail = New ColumnHeader()
+        colPhone = New ColumnHeader()
+        colAddress = New ColumnHeader()
+        colactive = New ColumnHeader()
+        colCreated_at = New ColumnHeader()
+        colUpdated_at = New ColumnHeader()
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox1.SuspendLayout()
         GroupBox2.SuspendLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' PictureBox7
@@ -69,15 +77,15 @@ Partial Class proveedores
         ' GroupBox1
         ' 
         GroupBox1.Anchor = AnchorStyles.Left
-        GroupBox1.Controls.Add(ComboBox1)
+        GroupBox1.Controls.Add(cmbActive)
         GroupBox1.Controls.Add(Label6)
-        GroupBox1.Controls.Add(TextBox4)
+        GroupBox1.Controls.Add(tbAddress)
         GroupBox1.Controls.Add(Label5)
-        GroupBox1.Controls.Add(TextBox1)
-        GroupBox1.Controls.Add(TextBox3)
-        GroupBox1.Controls.Add(TextBox2)
+        GroupBox1.Controls.Add(tbPhone)
+        GroupBox1.Controls.Add(tbCuit)
+        GroupBox1.Controls.Add(tbName)
         GroupBox1.Controls.Add(Label4)
-        GroupBox1.Controls.Add(tbNumber)
+        GroupBox1.Controls.Add(tbEmail)
         GroupBox1.Controls.Add(Label3)
         GroupBox1.Controls.Add(Label2)
         GroupBox1.Controls.Add(Label1)
@@ -91,14 +99,14 @@ Partial Class proveedores
         GroupBox1.TabStop = False
         GroupBox1.Text = "Datos"
         ' 
-        ' ComboBox1
+        ' cmbActive
         ' 
-        ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(150, 220)
-        ComboBox1.Margin = New Padding(3, 2, 3, 2)
-        ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(154, 23)
-        ComboBox1.TabIndex = 20
+        cmbActive.FormattingEnabled = True
+        cmbActive.Location = New Point(150, 220)
+        cmbActive.Margin = New Padding(3, 2, 3, 2)
+        cmbActive.Name = "cmbActive"
+        cmbActive.Size = New Size(154, 23)
+        cmbActive.TabIndex = 5
         ' 
         ' Label6
         ' 
@@ -110,14 +118,14 @@ Partial Class proveedores
         Label6.TabIndex = 19
         Label6.Text = "Activo"
         ' 
-        ' TextBox4
+        ' tbAddress
         ' 
-        TextBox4.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
-        TextBox4.Location = New Point(150, 178)
-        TextBox4.Margin = New Padding(3, 2, 3, 2)
-        TextBox4.Name = "TextBox4"
-        TextBox4.Size = New Size(154, 23)
-        TextBox4.TabIndex = 18
+        tbAddress.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
+        tbAddress.Location = New Point(150, 178)
+        tbAddress.Margin = New Padding(3, 2, 3, 2)
+        tbAddress.Name = "tbAddress"
+        tbAddress.Size = New Size(154, 23)
+        tbAddress.TabIndex = 4
         ' 
         ' Label5
         ' 
@@ -129,30 +137,30 @@ Partial Class proveedores
         Label5.TabIndex = 17
         Label5.Text = "Direccion"
         ' 
-        ' TextBox1
+        ' tbPhone
         ' 
-        TextBox1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
-        TextBox1.Location = New Point(150, 136)
-        TextBox1.Margin = New Padding(3, 2, 3, 2)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(154, 23)
-        TextBox1.TabIndex = 16
+        tbPhone.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
+        tbPhone.Location = New Point(150, 136)
+        tbPhone.Margin = New Padding(3, 2, 3, 2)
+        tbPhone.Name = "tbPhone"
+        tbPhone.Size = New Size(154, 23)
+        tbPhone.TabIndex = 3
         ' 
-        ' TextBox3
+        ' tbCuit
         ' 
-        TextBox3.Location = New Point(150, 58)
-        TextBox3.Margin = New Padding(3, 2, 3, 2)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(154, 23)
-        TextBox3.TabIndex = 15
+        tbCuit.Location = New Point(150, 58)
+        tbCuit.Margin = New Padding(3, 2, 3, 2)
+        tbCuit.Name = "tbCuit"
+        tbCuit.Size = New Size(154, 23)
+        tbCuit.TabIndex = 1
         ' 
-        ' TextBox2
+        ' tbName
         ' 
-        TextBox2.Location = New Point(150, 20)
-        TextBox2.Margin = New Padding(3, 2, 3, 2)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(154, 23)
-        TextBox2.TabIndex = 14
+        tbName.Location = New Point(150, 20)
+        tbName.Margin = New Padding(3, 2, 3, 2)
+        tbName.Name = "tbName"
+        tbName.Size = New Size(154, 23)
+        tbName.TabIndex = 0
         ' 
         ' Label4
         ' 
@@ -164,14 +172,14 @@ Partial Class proveedores
         Label4.TabIndex = 12
         Label4.Text = "Telefono"
         ' 
-        ' tbNumber
+        ' tbEmail
         ' 
-        tbNumber.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
-        tbNumber.Location = New Point(150, 97)
-        tbNumber.Margin = New Padding(3, 2, 3, 2)
-        tbNumber.Name = "tbNumber"
-        tbNumber.Size = New Size(154, 23)
-        tbNumber.TabIndex = 11
+        tbEmail.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
+        tbEmail.Location = New Point(150, 97)
+        tbEmail.Margin = New Padding(3, 2, 3, 2)
+        tbEmail.Name = "tbEmail"
+        tbEmail.Size = New Size(154, 23)
+        tbEmail.TabIndex = 2
         ' 
         ' Label3
         ' 
@@ -214,7 +222,7 @@ Partial Class proveedores
         btnDelete.Margin = New Padding(3, 2, 3, 2)
         btnDelete.Name = "btnDelete"
         btnDelete.Size = New Size(92, 32)
-        btnDelete.TabIndex = 10
+        btnDelete.TabIndex = 9
         btnDelete.Text = "Eliminar"
         btnDelete.UseVisualStyleBackColor = True
         ' 
@@ -229,7 +237,7 @@ Partial Class proveedores
         btnNew.Margin = New Padding(3, 2, 3, 2)
         btnNew.Name = "btnNew"
         btnNew.Size = New Size(92, 32)
-        btnNew.TabIndex = 9
+        btnNew.TabIndex = 7
         btnNew.Text = "Nuevo"
         btnNew.UseVisualStyleBackColor = True
         ' 
@@ -244,7 +252,7 @@ Partial Class proveedores
         btnAdd.Margin = New Padding(3, 2, 3, 2)
         btnAdd.Name = "btnAdd"
         btnAdd.Size = New Size(92, 32)
-        btnAdd.TabIndex = 8
+        btnAdd.TabIndex = 6
         btnAdd.Text = "Agregar"
         btnAdd.UseVisualStyleBackColor = True
         ' 
@@ -259,7 +267,7 @@ Partial Class proveedores
         btnModify.Margin = New Padding(3, 2, 3, 2)
         btnModify.Name = "btnModify"
         btnModify.Size = New Size(92, 32)
-        btnModify.TabIndex = 13
+        btnModify.TabIndex = 8
         btnModify.Text = "Modificar"
         btnModify.UseVisualStyleBackColor = True
         ' 
@@ -277,8 +285,8 @@ Partial Class proveedores
         ' GroupBox2
         ' 
         GroupBox2.Anchor = AnchorStyles.Top
-        GroupBox2.Controls.Add(TextBox6)
-        GroupBox2.Controls.Add(TextBox5)
+        GroupBox2.Controls.Add(tbCuitQuery)
+        GroupBox2.Controls.Add(tbNameQuery)
         GroupBox2.Controls.Add(btnSearch)
         GroupBox2.Controls.Add(Label7)
         GroupBox2.Controls.Add(Label8)
@@ -292,21 +300,21 @@ Partial Class proveedores
         GroupBox2.TabStop = False
         GroupBox2.Text = "Consultas"
         ' 
-        ' TextBox6
+        ' tbCuitQuery
         ' 
-        TextBox6.Location = New Point(149, 61)
-        TextBox6.Margin = New Padding(3, 2, 3, 2)
-        TextBox6.Name = "TextBox6"
-        TextBox6.Size = New Size(154, 23)
-        TextBox6.TabIndex = 13
+        tbCuitQuery.Location = New Point(149, 61)
+        tbCuitQuery.Margin = New Padding(3, 2, 3, 2)
+        tbCuitQuery.Name = "tbCuitQuery"
+        tbCuitQuery.Size = New Size(154, 23)
+        tbCuitQuery.TabIndex = 11
         ' 
-        ' TextBox5
+        ' tbNameQuery
         ' 
-        TextBox5.Location = New Point(149, 20)
-        TextBox5.Margin = New Padding(3, 2, 3, 2)
-        TextBox5.Name = "TextBox5"
-        TextBox5.Size = New Size(154, 23)
-        TextBox5.TabIndex = 12
+        tbNameQuery.Location = New Point(149, 20)
+        tbNameQuery.Margin = New Padding(3, 2, 3, 2)
+        tbNameQuery.Name = "tbNameQuery"
+        tbNameQuery.Size = New Size(154, 23)
+        tbNameQuery.TabIndex = 10
         ' 
         ' btnSearch
         ' 
@@ -319,7 +327,7 @@ Partial Class proveedores
         btnSearch.Margin = New Padding(3, 2, 3, 2)
         btnSearch.Name = "btnSearch"
         btnSearch.Size = New Size(92, 32)
-        btnSearch.TabIndex = 8
+        btnSearch.TabIndex = 12
         btnSearch.Text = "Buscar"
         btnSearch.UseVisualStyleBackColor = True
         ' 
@@ -343,17 +351,6 @@ Partial Class proveedores
         Label8.TabIndex = 8
         Label8.Text = "Nombre"
         ' 
-        ' DataGridView1
-        ' 
-        DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(515, 145)
-        DataGridView1.Margin = New Padding(3, 2, 3, 2)
-        DataGridView1.Name = "DataGridView1"
-        DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(673, 599)
-        DataGridView1.TabIndex = 14
-        ' 
         ' Label12
         ' 
         Label12.Anchor = AnchorStyles.Top Or AnchorStyles.Right
@@ -366,14 +363,70 @@ Partial Class proveedores
         Label12.TabIndex = 18
         Label12.Text = "Proveedores"
         ' 
+        ' lvDataGridSup
+        ' 
+        lvDataGridSup.Anchor = AnchorStyles.None
+        lvDataGridSup.Columns.AddRange(New ColumnHeader() {colID, colName, colCuit, colEmail, colPhone, colAddress, colactive, colCreated_at, colUpdated_at})
+        lvDataGridSup.FullRowSelect = True
+        lvDataGridSup.Location = New Point(537, 197)
+        lvDataGridSup.Name = "lvDataGridSup"
+        lvDataGridSup.Size = New Size(639, 515)
+        lvDataGridSup.TabIndex = 19
+        lvDataGridSup.UseCompatibleStateImageBehavior = False
+        lvDataGridSup.View = View.Details
+        ' 
+        ' colID
+        ' 
+        colID.Text = "ID"
+        ' 
+        ' colName
+        ' 
+        colName.Text = "Nombre"
+        colName.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colCuit
+        ' 
+        colCuit.Text = "Cuit"
+        colCuit.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colEmail
+        ' 
+        colEmail.Text = "Email"
+        colEmail.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colPhone
+        ' 
+        colPhone.Text = "Telefono"
+        colPhone.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colAddress
+        ' 
+        colAddress.Text = "Direccion"
+        colAddress.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colactive
+        ' 
+        colactive.Text = "Activo"
+        colactive.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colCreated_at
+        ' 
+        colCreated_at.Text = "Creado"
+        colCreated_at.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' colUpdated_at
+        ' 
+        colUpdated_at.Text = "Actualizado"
+        colUpdated_at.TextAlign = HorizontalAlignment.Center
+        ' 
         ' proveedores
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
         ClientSize = New Size(1229, 781)
+        Controls.Add(lvDataGridSup)
         Controls.Add(Label12)
-        Controls.Add(DataGridView1)
         Controls.Add(GroupBox2)
         Controls.Add(btnClose)
         Controls.Add(btnModify)
@@ -391,7 +444,6 @@ Partial Class proveedores
         GroupBox1.PerformLayout()
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -399,28 +451,37 @@ Partial Class proveedores
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Label4 As Label
-    Friend WithEvents tbNumber As TextBox
+    Friend WithEvents tbEmail As TextBox
     Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents btnDelete As Button
     Friend WithEvents btnNew As Button
     Friend WithEvents btnAdd As Button
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents tbCuit As TextBox
+    Friend WithEvents tbName As TextBox
+    Friend WithEvents cmbActive As ComboBox
     Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents tbAddress As TextBox
     Friend WithEvents Label5 As Label
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents tbPhone As TextBox
     Friend WithEvents btnModify As Button
     Friend WithEvents btnClose As Button
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents btnSearch As Button
     Friend WithEvents Label7 As Label
     Friend WithEvents Label8 As Label
-    Friend WithEvents TextBox6 As TextBox
-    Friend WithEvents TextBox5 As TextBox
-    Friend WithEvents DataGridView1 As DataGridView
+    Friend WithEvents tbCuitQuery As TextBox
+    Friend WithEvents tbNameQuery As TextBox
     Friend WithEvents Label12 As Label
+    Friend WithEvents lvDataGridSup As ListView
+    Friend WithEvents colID As ColumnHeader
+    Friend WithEvents colName As ColumnHeader
+    Friend WithEvents colCuit As ColumnHeader
+    Friend WithEvents colEmail As ColumnHeader
+    Friend WithEvents colPhone As ColumnHeader
+    Friend WithEvents colAddress As ColumnHeader
+    Friend WithEvents colactive As ColumnHeader
+    Friend WithEvents colCreated_at As ColumnHeader
+    Friend WithEvents colUpdated_at As ColumnHeader
 End Class

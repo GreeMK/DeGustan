@@ -39,7 +39,7 @@ Partial Class Categorias
         tbNameQuery = New TextBox()
         btnSearch = New Button()
         Label8 = New Label()
-        lvDataGrid = New ListView()
+        lvDataGridCat = New ListView()
         colID = New ColumnHeader()
         colName = New ColumnHeader()
         colDescription = New ColumnHeader()
@@ -243,17 +243,17 @@ Partial Class Categorias
         Label8.TabIndex = 8
         Label8.Text = "Nombre"
         ' 
-        ' lvDataGrid
+        ' lvDataGridCat
         ' 
-        lvDataGrid.Anchor = AnchorStyles.None
-        lvDataGrid.Columns.AddRange(New ColumnHeader() {colID, colName, colDescription, colActive, colCreated, colUpdated})
-        lvDataGrid.FullRowSelect = True
-        lvDataGrid.Location = New Point(537, 197)
-        lvDataGrid.Name = "lvDataGrid"
-        lvDataGrid.Size = New Size(639, 515)
-        lvDataGrid.TabIndex = 22
-        lvDataGrid.UseCompatibleStateImageBehavior = False
-        lvDataGrid.View = View.Details
+        lvDataGridCat.Anchor = AnchorStyles.None
+        lvDataGridCat.Columns.AddRange(New ColumnHeader() {colID, colName, colDescription, colActive, colCreated, colUpdated})
+        lvDataGridCat.FullRowSelect = True
+        lvDataGridCat.Location = New Point(537, 197)
+        lvDataGridCat.Name = "lvDataGridCat"
+        lvDataGridCat.Size = New Size(639, 515)
+        lvDataGridCat.TabIndex = 22
+        lvDataGridCat.UseCompatibleStateImageBehavior = False
+        lvDataGridCat.View = View.Details
         ' 
         ' colID
         ' 
@@ -306,12 +306,12 @@ Partial Class Categorias
         ' 
         ' Categorias
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
         ClientSize = New Size(1229, 781)
         Controls.Add(btnModify)
-        Controls.Add(lvDataGrid)
+        Controls.Add(lvDataGridCat)
         Controls.Add(GroupBox2)
         Controls.Add(PictureBox7)
         Controls.Add(GroupBox1)
@@ -347,7 +347,7 @@ Partial Class Categorias
     Friend WithEvents tbNameQuery As TextBox
     Friend WithEvents btnSearch As Button
     Friend WithEvents Label8 As Label
-    Friend WithEvents lvDataGrid As ListView
+    Friend WithEvents lvDataGridCat As ListView
     Friend WithEvents colID As ColumnHeader
     Friend WithEvents colName As ColumnHeader
     Friend WithEvents colDescription As ColumnHeader
