@@ -81,6 +81,7 @@ Public Class proveedores
         Conectar()
         cmbActive.Items.Add("Activo")
         cmbActive.Items.Add("Inactivo")
+        cmbActive.SelectedIndex = 0
 
         AjustarColumnas()
 
@@ -89,5 +90,128 @@ Public Class proveedores
 
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
         ClearForm()
+    End Sub
+
+    Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
+
+        ' Validar campos obligatorios: nombre y teléfono
+        If tbName.Text = "" Or tbPhone.Text = "" Then
+            MsgBox("Debe completar los campos obligatorios: Nombre y Teléfono", vbExclamation, "Atención")
+            Exit Sub
+        End If
+
+        Try
+            conexion.Open()
+            Dim activo As Boolean
+            If cmbActive.SelectedIndex = 0 Then
+                activo = True
+            Else
+                activo = False
+            End If
+
+            Dim cmd As New MySqlCommand
+            cmd.Connection = conexion
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "INSERT INTO proveedores (nombre, cuit, email, telefono, direccion, activo, created_at, update_at) VALUES (@nombre, @cuit, @email, @telefono, @direccion, @activo, NOW(), NOW())"
+            cmd.Parameters.AddWithValue("@nombre", tbName.Text)
+            cmd.Parameters.AddWithValue("@cuit", tbCuit.Text)
+            cmd.Parameters.AddWithValue("@email", tbEmail.Text)
+            cmd.Parameters.AddWithValue("@telefono", tbPhone.Text)
+            cmd.Parameters.AddWithValue("@direccion", tbAddress.Text)
+            cmd.Parameters.AddWithValue("@activo", activo)
+
+            cmd.ExecuteNonQuery()
+
+            ClearForm()
+            conexion.Close()
+            cargarProveedor("id")
+
+
+        Catch ex As Exception
+            MsgBox("Error al agregar el proveedor: " & ex.Message, vbCritical, "Error")
+        End Try
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        ' Validar que se haya seleccionado un proveedor
+        If lvDataGridSup.SelectedItems.Count = 0 Then
+            MsgBox("Debe seleccionar un proveedor para eliminar", vbExclamation, "Atención")
+            Exit Sub
+        End If
+
+        Dim selectedId As Integer = Convert.ToInt32(lvDataGridSup.SelectedItems(0).Text) ' Obtener el ID del proveedor seleccionado
+        ' Confirmar la eliminación
+        Dim confirmResult As DialogResult = MessageBox.Show("¿Está seguro de que desea eliminar el proveedor seleccionado?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If confirmResult = DialogResult.Yes Then
+            Try
+                conexion.Open()
+                Dim cmd As New MySqlCommand
+                cmd.Connection = conexion
+                cmd.CommandType = CommandType.Text
+                cmd.CommandText = "DELETE FROM proveedores WHERE id = @id"
+                cmd.Parameters.AddWithValue("@id", selectedId)
+                cmd.ExecuteNonQuery()
+                conexion.Close()
+                cargarProveedor("id")
+            Catch ex As Exception
+                MsgBox("Error al eliminar el proveedor: " & ex.Message, vbCritical, "Error")
+            End Try
+        End If
+    End Sub
+
+    Private Sub lvDataGridSup_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvDataGridSup.SelectedIndexChanged
+        ' Rellenar los campos del formulario con los datos del proveedor seleccionado
+
+        tbName.Text = lvDataGridSup.Items(lvDataGridSup.FocusedItem.Index).SubItems(1).Text
+        tbCuit.Text = lvDataGridSup.Items(lvDataGridSup.FocusedItem.Index).SubItems(2).Text
+        tbEmail.Text = lvDataGridSup.Items(lvDataGridSup.FocusedItem.Index).SubItems(3).Text
+        tbPhone.Text = lvDataGridSup.Items(lvDataGridSup.FocusedItem.Index).SubItems(4).Text
+        tbAddress.Text = lvDataGridSup.Items(lvDataGridSup.FocusedItem.Index).SubItems(5).Text
+        If lvDataGridSup.Items(lvDataGridSup.FocusedItem.Index).SubItems(6).Text = "Si" Then
+            cmbActive.SelectedIndex = 0
+        Else
+            cmbActive.SelectedIndex = 1
+        End If
+
+    End Sub
+
+    Private Sub btnModify_Click(sender As Object, e As EventArgs) Handles btnModify.Click
+        If lvDataGridSup.SelectedItems.Count = 0 Then
+            MsgBox("Debe seleccionar un proveedor para modificar", vbExclamation, "Atención")
+            Exit Sub
+        End If
+
+        Dim selectedId As Integer = Convert.ToInt32(lvDataGridSup.SelectedItems(0).Text) ' Obtener el ID del proveedor seleccionado
+
+        Try
+            conexion.Open()
+
+            Dim activo As Boolean
+            If cmbActive.SelectedIndex = 0 Then
+                activo = True
+            Else
+                activo = False
+            End If
+
+            Dim cmd As New MySqlCommand
+            cmd.Connection = conexion
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "UPDATE proveedores SET nombre = @nombre, cuit = @cuit, email = @email, telefono = @telefono, direccion = @direccion, activo = @activo, update_at = NOW() WHERE id = @id"
+            cmd.Parameters.AddWithValue("@nombre", tbName.Text)
+            cmd.Parameters.AddWithValue("@cuit", tbCuit.Text)
+            cmd.Parameters.AddWithValue("@email", tbEmail.Text)
+            cmd.Parameters.AddWithValue("@telefono", tbPhone.Text)
+            cmd.Parameters.AddWithValue("@direccion", tbAddress.Text)
+            cmd.Parameters.AddWithValue("@activo", activo)
+            cmd.Parameters.AddWithValue("@id", selectedId)
+            cmd.ExecuteNonQuery()
+            conexion.Close()
+            ClearForm()
+            cargarProveedor("id")
+
+        Catch ex As Exception
+            MsgBox("Error al modificar el proveedor: " & ex.Message, vbCritical, "Error")
+        End Try
     End Sub
 End Class

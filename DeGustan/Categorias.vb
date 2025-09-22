@@ -9,8 +9,7 @@ Public Class Categorias
     End Sub
 
     Private Sub cargarCategorias(orden As String)
-        ' Aquí iría el código para cargar las categorías desde la base de datos
-        ' y llenar el DataGridView (dgvCategories)
+        ' Subrutina para cargar las categorías en el ListView
         Try
             conexion.Open()
 
