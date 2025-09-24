@@ -8,6 +8,8 @@ Public Class proveedores
         tbEmail.Text = ""
         tbCuit.Text = ""
         cmbActive.SelectedIndex = 0
+        tbNameQuery.Text = ""
+        tbCuitQuery.Text = ""
         tbName.Focus()
     End Sub
 
@@ -73,23 +75,64 @@ Public Class proveedores
             End If
         Next
     End Sub
+
+    Private Sub CargarSugerencias()
+        ' sub rutina para cargar las sugerencias en los textbox de búsqueda
+        Try
+            Dim autoCompleteName As New AutoCompleteStringCollection()
+            Dim autoCompleteCuit As New AutoCompleteStringCollection()
+
+            conexion.Open()
+
+            Dim query As String = "SELECT nombre, cuit FROM proveedores"
+            Dim cmd As New MySqlCommand(query, conexion)
+            Dim reader = cmd.ExecuteReader()
+
+            If reader.HasRows Then
+                Do While reader.Read()
+                    autoCompleteName.Add(reader("nombre").ToString())
+                    autoCompleteCuit.Add(reader("cuit").ToString())
+                Loop
+            End If
+
+            tbNameQuery.AutoCompleteCustomSource = autoCompleteName
+            tbCuitQuery.AutoCompleteCustomSource = autoCompleteCuit
+
+            reader.Close()
+            conexion.Close()
+        Catch ex As Exception
+            MsgBox("Error al cargar las sugerencias: " & ex.Message, vbCritical, "Error")
+        End Try
+    End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
 
     Private Sub proveedores_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Conectar()
+
+        ' Configurar el ComboBox de estado
         cmbActive.Items.Add("Activo")
         cmbActive.Items.Add("Inactivo")
         cmbActive.SelectedIndex = 0
 
+        ' Configurar los TextBox de búsqueda auto asistida
+        tbNameQuery.AutoCompleteMode = AutoCompleteMode.Suggest
+        tbNameQuery.AutoCompleteSource = AutoCompleteSource.CustomSource
+
+        tbCuitQuery.AutoCompleteMode = AutoCompleteMode.Suggest
+        tbCuitQuery.AutoCompleteSource = AutoCompleteSource.CustomSource
+
         AjustarColumnas()
 
         cargarProveedor("id")
+
+        CargarSugerencias()
     End Sub
 
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
         ClearForm()
+        cargarProveedor("id")
     End Sub
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
@@ -125,6 +168,7 @@ Public Class proveedores
             ClearForm()
             conexion.Close()
             cargarProveedor("id")
+            CargarSugerencias()
 
 
         Catch ex As Exception
@@ -154,6 +198,7 @@ Public Class proveedores
                 cmd.ExecuteNonQuery()
                 conexion.Close()
                 cargarProveedor("id")
+                CargarSugerencias()
             Catch ex As Exception
                 MsgBox("Error al eliminar el proveedor: " & ex.Message, vbCritical, "Error")
             End Try
@@ -209,9 +254,65 @@ Public Class proveedores
             conexion.Close()
             ClearForm()
             cargarProveedor("id")
-
+            CargarSugerencias()
         Catch ex As Exception
             MsgBox("Error al modificar el proveedor: " & ex.Message, vbCritical, "Error")
+        End Try
+    End Sub
+
+    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        If tbNameQuery.Text = "" And tbCuitQuery.Text = "" Then
+            MsgBox("Debe ingresar al menos un criterio de búsqueda (Nombre o CUIT)", vbExclamation, "Atención")
+            Exit Sub
+        End If
+
+        Dim nameQuery As String = tbNameQuery.Text
+        Dim cuitQuery As String = tbCuitQuery.Text
+
+        Try
+            conexion.Open()
+
+            Dim query As String = "SELECT * FROM proveedores WHERE (@nombre IS NULL OR nombre LIKE @nombre) AND (@cuit IS NULL OR cuit LIKE @cuit)"
+            Dim cmd As New MySqlCommand(query, conexion)
+
+            ' Validar por cuál valor se buscará
+            If String.IsNullOrEmpty(nameQuery) Then     ' Si el nombre está vacío devuelvo NULL, buscar solo por CUIT
+                cmd.Parameters.AddWithValue("@nombre", DBNull.Value)
+            Else
+                cmd.Parameters.AddWithValue("@nombre", "%" & nameQuery & "%")
+            End If
+
+            If String.IsNullOrEmpty(cuitQuery) Then     ' Si el CUIT está vacío devuelvo NULL, buscar solo por nombre
+                cmd.Parameters.AddWithValue("@cuit", DBNull.Value)
+            Else
+                cmd.Parameters.AddWithValue("@cuit", "%" & cuitQuery & "%")
+            End If
+
+            Dim reader = cmd.ExecuteReader()
+            If reader.HasRows Then
+                lvDataGridSup.Items.Clear()
+                Dim lvItem As New ListViewItem
+                Do While reader.Read()
+                    lvItem = lvDataGridSup.Items.Add(reader("id"))
+                    lvItem.SubItems.Add(reader("nombre"))
+                    lvItem.SubItems.Add(reader("cuit"))
+                    lvItem.SubItems.Add(reader("email"))
+                    lvItem.SubItems.Add(reader("telefono"))
+                    lvItem.SubItems.Add(reader("direccion"))
+                    lvItem.SubItems.Add(If(reader("activo") = True, "Si", "No"))
+                    lvItem.SubItems.Add(reader("created_at"))
+                    lvItem.SubItems.Add(reader("update_at"))
+                Loop
+            Else
+                MsgBox("No se encontraron proveedores que coincidan con los criterios de búsqueda.", vbInformation, "Búsqueda")
+                cargarProveedor("id")
+            End If
+
+            reader.Close()
+            conexion.Close()
+            ClearForm()
+        Catch ex As Exception
+            MsgBox("Error al buscar proveedores: " & ex.Message, vbCritical, "Error")
         End Try
     End Sub
 End Class

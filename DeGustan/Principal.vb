@@ -19,6 +19,17 @@ Public Class Principal
 
     End Sub
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim login As New login
+
+        Dim answr As DialogResult = login.ShowDialog
+        login.Show()
+
+        If (answr <> DialogResult.OK) Then
+            Me.Close()
+        Else
+            Me.Visible = True
+        End If
+
         Panel1.Width = minWitdh         ' Indico que el ancho inicial del panel es el minimo
         Timer1.Interval = 15
 

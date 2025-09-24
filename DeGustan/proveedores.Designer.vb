@@ -310,6 +310,7 @@ Partial Class proveedores
         ' 
         ' tbNameQuery
         ' 
+        tbNameQuery.AutoCompleteMode = AutoCompleteMode.Suggest
         tbNameQuery.Location = New Point(149, 20)
         tbNameQuery.Margin = New Padding(3, 2, 3, 2)
         tbNameQuery.Name = "tbNameQuery"
