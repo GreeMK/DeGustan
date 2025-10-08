@@ -36,8 +36,8 @@ Partial Class Categorias
         btnNew = New Button()
         btnAdd = New Button()
         GroupBox2 = New GroupBox()
-        tbNameQuery = New TextBox()
         btnSearch = New Button()
+        tbNameQuery = New TextBox()
         Label8 = New Label()
         lvDataGridCat = New ListView()
         colID = New ColumnHeader()
@@ -197,26 +197,18 @@ Partial Class Categorias
         ' GroupBox2
         ' 
         GroupBox2.Anchor = AnchorStyles.Top
-        GroupBox2.Controls.Add(tbNameQuery)
         GroupBox2.Controls.Add(btnSearch)
+        GroupBox2.Controls.Add(tbNameQuery)
         GroupBox2.Controls.Add(Label8)
         GroupBox2.ForeColor = SystemColors.Control
         GroupBox2.Location = New Point(642, 54)
         GroupBox2.Margin = New Padding(3, 2, 3, 2)
         GroupBox2.Name = "GroupBox2"
         GroupBox2.Padding = New Padding(3, 2, 3, 2)
-        GroupBox2.Size = New Size(420, 62)
+        GroupBox2.Size = New Size(420, 58)
         GroupBox2.TabIndex = 21
         GroupBox2.TabStop = False
         GroupBox2.Text = "Consultas"
-        ' 
-        ' tbNameQuery
-        ' 
-        tbNameQuery.Location = New Point(149, 20)
-        tbNameQuery.Margin = New Padding(3, 2, 3, 2)
-        tbNameQuery.Name = "tbNameQuery"
-        tbNameQuery.Size = New Size(154, 23)
-        tbNameQuery.TabIndex = 12
         ' 
         ' btnSearch
         ' 
@@ -225,13 +217,21 @@ Partial Class Categorias
         btnSearch.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnSearch.FlatStyle = FlatStyle.Flat
         btnSearch.ForeColor = SystemColors.Control
-        btnSearch.Location = New Point(322, 16)
+        btnSearch.Location = New Point(299, 15)
         btnSearch.Margin = New Padding(3, 2, 3, 2)
         btnSearch.Name = "btnSearch"
-        btnSearch.Size = New Size(92, 32)
+        btnSearch.Size = New Size(94, 35)
         btnSearch.TabIndex = 8
         btnSearch.Text = "Buscar"
         btnSearch.UseVisualStyleBackColor = True
+        ' 
+        ' tbNameQuery
+        ' 
+        tbNameQuery.Location = New Point(106, 19)
+        tbNameQuery.Margin = New Padding(3, 2, 3, 2)
+        tbNameQuery.Name = "tbNameQuery"
+        tbNameQuery.Size = New Size(154, 23)
+        tbNameQuery.TabIndex = 12
         ' 
         ' Label8
         ' 
@@ -245,7 +245,7 @@ Partial Class Categorias
         ' 
         ' lvDataGridCat
         ' 
-        lvDataGridCat.Anchor = AnchorStyles.None
+        lvDataGridCat.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lvDataGridCat.Columns.AddRange(New ColumnHeader() {colID, colName, colDescription, colActive, colCreated, colUpdated})
         lvDataGridCat.FullRowSelect = True
         lvDataGridCat.Location = New Point(537, 197)
@@ -257,7 +257,7 @@ Partial Class Categorias
         ' 
         ' colID
         ' 
-        colID.Text = ""
+        colID.Text = "id"
         colID.Width = 0
         ' 
         ' colName

@@ -68,31 +68,41 @@ Public Class Categorias
         Next
     End Sub
 
-    Private Sub CargarSugerencias()
-        ' Sub para cargar las sugerencias de nombres de categorías en el TextBox de búsqueda
-        Try
-            Dim autoComplete As New AutoCompleteStringCollection()
+    Private Sub CargarSugerencias(ByVal buscar As String)
+        'Private Sub busquedaAsistida(ByVal buscar As String)
+        If buscar = "" Then
+            lvDataGridCat.Items.Clear()
+            Exit Sub
+        End If
 
+        Try
             conexion.Open()
 
-            Dim query = "SELECT nombre FROM categorias"
-            Dim cmd = New MySqlCommand(query, conexion)
-            Dim reader = cmd.ExecuteReader()
-
+            Dim query = "SELECT * FROM categorias WHERE nombre LIKE @nombre ORDER BY id"
+            Dim cmd = New MySqlCommand(query, conexion) ' Uso Using para asegurar el cierre del comando
+            cmd.Parameters.AddWithValue("@nombre", "%" & buscar & "%")
+            Dim reader = cmd.ExecuteReader() ' Uso Using para asegurar el cierre del reader
             If reader.HasRows Then
-
+                lvDataGridCat.Items.Clear()
+                Dim lvItem As New ListViewItem
                 Do While reader.Read()
-                    autoComplete.Add(reader("nombre").ToString())
+                    lvItem = lvDataGridCat.Items.Add(reader("id"))
+                    lvItem.SubItems.Add(reader("nombre"))
+                    lvItem.SubItems.Add(reader("descripcion"))
+                    lvItem.SubItems.Add(If(reader("activo") = True, "Sí", "No"))
+                    lvItem.SubItems.Add(reader("created_at"))
+                    lvItem.SubItems.Add(reader("updated_at"))
                 Loop
-
+            Else
+                MsgBox("No se encontraron categorías con ese nombre.", MsgBoxStyle.Information, "Sin resultados")
+                cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
             End If
-
-            tbNameQuery.AutoCompleteCustomSource = autoComplete
             reader.Close()
             conexion.Close()
+            clearForm()
 
         Catch ex As Exception
-            MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
+            MsgBox(ex.Message)
         End Try
     End Sub
 
@@ -107,13 +117,9 @@ Public Class Categorias
         ' Configuro el ComboBox para el estado activo/inactivo
         cmbActive.Items.Add("Activo")
         cmbActive.Items.Add("Inactivo")
-        cmbActive.SelectedIndex = 0 ' Selecciono "Activo" por defecto
-
-        AjustarColumnas()
+        cmbActive.SelectedIndex = 0 ' Selecciono "Activo" por defect
 
         cargarCategorias("id")  ' Cargo las categorías ordenadas por ID
-
-        CargarSugerencias()
 
     End Sub
 
@@ -161,7 +167,7 @@ Public Class Categorias
             clearForm()
             conexion.Close()
             cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
-            CargarSugerencias()
+            'CargarSugerencias()
         Catch ex As Exception
             MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
         End Try
@@ -189,7 +195,7 @@ Public Class Categorias
                 conexion.Close()
                 clearForm()
                 cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
-                CargarSugerencias()
+                'CargarSugerencias()
             Catch ex As Exception
                 MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
             End Try
@@ -243,50 +249,23 @@ Public Class Categorias
             clearForm()
             conexion.Close()
             cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
-            CargarSugerencias()
+            'CargarSugerencias()
         Catch ex As Exception
             MsgBox("Error al conectar a la base de datos: " & ex.Message, MsgBoxStyle.Critical, "Error de conexión")
         End Try
 
     End Sub
-
-    Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+    Private Sub tbNameQuery_TextChanged(sender As Object, e As EventArgs) Handles tbNameQuery.TextChanged
         If tbNameQuery.Text.Trim() = "" Then
-            MsgBox("Por favor, ingrese un nombre para buscar.", MsgBoxStyle.Exclamation, "Campo vacío")
+            lvDataGridCat.Items.Clear()
+            cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
             Exit Sub
         End If
 
-        Dim nombreQuery As String = tbNameQuery.Text.Trim()
-
-        Try
-            conexion.Open()
-
-            Dim query = "SELECT * FROM categorias WHERE nombre LIKE @nombre ORDER BY id"
-            Dim cmd = New MySqlCommand(query, conexion) ' Uso Using para asegurar el cierre del comando
-            cmd.Parameters.AddWithValue("@nombre", "%" & nombreQuery & "%")
-            Dim reader = cmd.ExecuteReader() ' Uso Using para asegurar el cierre del reader
-            If reader.HasRows Then
-                lvDataGridCat.Items.Clear()
-                Dim lvItem As New ListViewItem
-                Do While reader.Read()
-                    lvItem = lvDataGridCat.Items.Add(reader("id"))
-                    lvItem.SubItems.Add(reader("nombre"))
-                    lvItem.SubItems.Add(reader("descripcion"))
-                    lvItem.SubItems.Add(If(reader("activo") = True, "Sí", "No"))
-                    lvItem.SubItems.Add(reader("created_at"))
-                    lvItem.SubItems.Add(reader("updated_at"))
-                Loop
-            Else
-                MsgBox("No se encontraron categorías con ese nombre.", MsgBoxStyle.Information, "Sin resultados")
-                cargarCategorias("id")  ' Recargo las categorías ordenadas por ID
-            End If
-            reader.Close()
-            conexion.Close()
-            clearForm()
-
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
+        CargarSugerencias(tbNameQuery.Text.Trim())
     End Sub
 
+    Private Sub Categorias_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        AjustarColumnas()
+    End Sub
 End Class
