@@ -35,7 +35,6 @@ Partial Class Movimientos
         Label2 = New Label()
         cbProductID = New ComboBox()
         Label1 = New Label()
-        DataGridView1 = New DataGridView()
         PictureBox7 = New PictureBox()
         btnSearch = New Button()
         GroupBox2 = New GroupBox()
@@ -44,8 +43,18 @@ Partial Class Movimientos
         ComboBox1 = New ComboBox()
         Label5 = New Label()
         Label12 = New Label()
+        ListView1 = New ListView()
+        colID = New ColumnHeader()
+        colProdID = New ColumnHeader()
+        colType = New ColumnHeader()
+        colNumber = New ColumnHeader()
+        colNumberPrev = New ColumnHeader()
+        colNumberNew = New ColumnHeader()
+        colMotive = New ColumnHeader()
+        colUser = New ColumnHeader()
+        colReference = New ColumnHeader()
+        colCreated_at = New ColumnHeader()
         GroupBox1.SuspendLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
         GroupBox2.SuspendLayout()
         SuspendLayout()
@@ -206,17 +215,6 @@ Partial Class Movimientos
         Label1.TabIndex = 6
         Label1.Text = "Producto"
         ' 
-        ' DataGridView1
-        ' 
-        DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Location = New Point(522, 154)
-        DataGridView1.Margin = New Padding(3, 2, 3, 2)
-        DataGridView1.Name = "DataGridView1"
-        DataGridView1.RowHeadersWidth = 51
-        DataGridView1.Size = New Size(673, 599)
-        DataGridView1.TabIndex = 5
-        ' 
         ' PictureBox7
         ' 
         PictureBox7.Image = My.Resources.Resources.loguito
@@ -313,16 +311,66 @@ Partial Class Movimientos
         Label12.TabIndex = 17
         Label12.Text = "Movimientos"
         ' 
+        ' ListView1
+        ' 
+        ListView1.Columns.AddRange(New ColumnHeader() {colID, colProdID, colType, colNumber, colNumberPrev, colNumberNew, colMotive, colUser, colReference, colCreated_at})
+        ListView1.Location = New Point(576, 200)
+        ListView1.Name = "ListView1"
+        ListView1.Size = New Size(613, 525)
+        ListView1.TabIndex = 18
+        ListView1.UseCompatibleStateImageBehavior = False
+        ListView1.View = View.Details
+        ' 
+        ' colID
+        ' 
+        colID.Text = "ID"
+        ' 
+        ' colProdID
+        ' 
+        colProdID.Text = "Producto"
+        ' 
+        ' colType
+        ' 
+        colType.Text = "Tipo"
+        ' 
+        ' colNumber
+        ' 
+        colNumber.Text = "Cantidad"
+        ' 
+        ' colNumberPrev
+        ' 
+        colNumberPrev.Text = "Cantidad anterior"
+        ' 
+        ' colNumberNew
+        ' 
+        colNumberNew.Text = "Cantidad nueva"
+        ' 
+        ' colMotive
+        ' 
+        colMotive.Text = "Motivo"
+        ' 
+        ' colUser
+        ' 
+        colUser.Text = "Usuario"
+        ' 
+        ' colReference
+        ' 
+        colReference.Text = "Referencia"
+        ' 
+        ' colCreated_at
+        ' 
+        colCreated_at.Text = "Creado"
+        ' 
         ' Movimientos
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
         ClientSize = New Size(1229, 781)
+        Controls.Add(ListView1)
         Controls.Add(Label12)
         Controls.Add(GroupBox2)
         Controls.Add(PictureBox7)
-        Controls.Add(DataGridView1)
         Controls.Add(GroupBox1)
         Controls.Add(btnDelete)
         Controls.Add(btnNew)
@@ -334,7 +382,6 @@ Partial Class Movimientos
         Text = "prueba"
         GroupBox1.ResumeLayout(False)
         GroupBox1.PerformLayout()
-        CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
@@ -355,7 +402,6 @@ Partial Class Movimientos
     Friend WithEvents Label1 As Label
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label4 As Label
-    Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents btnSearch As Button
     Friend WithEvents GroupBox2 As GroupBox
@@ -364,4 +410,15 @@ Partial Class Movimientos
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Label12 As Label
+    Friend WithEvents ListView1 As ListView
+    Friend WithEvents colID As ColumnHeader
+    Friend WithEvents colProdID As ColumnHeader
+    Friend WithEvents colType As ColumnHeader
+    Friend WithEvents colNumber As ColumnHeader
+    Friend WithEvents colNumberPrev As ColumnHeader
+    Friend WithEvents colNumberNew As ColumnHeader
+    Friend WithEvents colMotive As ColumnHeader
+    Friend WithEvents colUser As ColumnHeader
+    Friend WithEvents colReference As ColumnHeader
+    Friend WithEvents colCreated_at As ColumnHeader
 End Class
