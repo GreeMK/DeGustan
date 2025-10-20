@@ -185,7 +185,7 @@ Partial Class Usuarios
         ' 
         ' btnCargarImagen
         ' 
-        btnCargarImagen.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnCargarImagen.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         btnCargarImagen.ForeColor = SystemColors.ActiveCaptionText
         btnCargarImagen.Location = New Point(230, 370)
         btnCargarImagen.Margin = New Padding(2, 2, 2, 2)
@@ -373,7 +373,7 @@ Partial Class Usuarios
         ' 
         Label12.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Label12.AutoSize = True
-        Label12.Font = New Font("Segoe UI", 12F)
+        Label12.Font = New Font("Segoe UI", 12.0F)
         Label12.ForeColor = Color.FromArgb(CByte(198), CByte(149), CByte(72))
         Label12.Location = New Point(1038, 4)
         Label12.Name = "Label12"
@@ -411,7 +411,7 @@ Partial Class Usuarios
         ' 
         ' Usuarios
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
         ClientSize = New Size(1200, 676)
