@@ -1,5 +1,10 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports System.Drawing.Printing
+
 Public Class Productos
+    Private Pagina As Integer = 1
+    Private printList As New List(Of String)()
+    Private WithEvents printDoc As New PrintDocument()
 
     Private Sub AjustarColumnas()
         ' Verificamos que haya columnas
@@ -47,9 +52,8 @@ Public Class Productos
         Try
             conexion.Open()
 
-            Dim query = "SELECT nombre, id FROM categorias order by @order"
+            Dim query = "SELECT nombre, id FROM categorias order by " & order
             Dim cmd = New MySqlCommand(query, conexion)
-            cmd.Parameters.AddWithValue("@order", order)
             Dim reader = cmd.ExecuteReader()
 
             If reader.HasRows Then
@@ -70,9 +74,8 @@ Public Class Productos
         Try
             conexion.Open()
 
-            Dim query = "SELECT nombre FROM proveedores order by @order"
+            Dim query = "SELECT nombre FROM proveedores order by " & order
             Dim cmd = New MySqlCommand(query, conexion)
-            cmd.Parameters.AddWithValue("@order", order)
             Dim reader = cmd.ExecuteReader()
 
             If reader.HasRows Then
@@ -225,6 +228,28 @@ Public Class Productos
 
         cargaGrilla()
 
+        ' Si el rol es Ventas, deshabilitar edición y botones CRUD
+        Try
+            If UsuarioActual.Rol = "Ventas" Then
+                ' Deshabilitar botones de CRUD
+                btnAdd.Enabled = False
+                btnModify.Enabled = False
+                btnDelete.Enabled = False
+                btnNew.Enabled = False
+
+                ' Poner campos en solo lectura / no editables
+                tbCodigo.ReadOnly = True
+                tbName.ReadOnly = True
+                rtbDescription.ReadOnly = True
+                cbCategory.Enabled = False
+                cbSupplie.Enabled = False
+                tbSell.ReadOnly = True
+                tbBuy.ReadOnly = True
+                tbMin.ReadOnly = True
+                tbCurrent.ReadOnly = True
+            End If
+        Catch
+        End Try
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -232,6 +257,12 @@ Public Class Productos
     End Sub
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
+        ' Bloquear acción si el rol es Ventas
+        If UsuarioActual.Rol = "Ventas" Then
+            MsgBox("No tiene permiso para crear productos.")
+            Return
+        End If
+
         If tbCodigo.Text.Trim() = "" Or tbName.Text.Trim() = "" Or tbSell.Text.Trim() = "" Or tbBuy.Text.Trim() = "" Or tbMin.Text.Trim() = "" Or tbCurrent.Text.Trim() = "" Or cbCategory.SelectedIndex = -1 Or cbSupplie.SelectedIndex = -1 Then
             MsgBox("Por favor, complete todos los campos.", MsgBoxStyle.Exclamation)
             Exit Sub
@@ -294,6 +325,12 @@ Public Class Productos
     End Sub
 
     Private Sub btnModify_Click(sender As Object, e As EventArgs) Handles btnModify.Click
+        ' Bloquear acción si el rol es Ventas
+        If UsuarioActual.Rol = "Ventas" Then
+            MsgBox("No tiene permiso para modificar productos.")
+            Return
+        End If
+
         If lvProducts.SelectedItems.Count = 0 Then ' verifico que haya una fila seleccionada
             MsgBox("Por favor, seleccione un producto para eliminar.", MsgBoxStyle.Exclamation, "Selección requerida")
             Exit Sub
@@ -353,6 +390,12 @@ Public Class Productos
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        ' Bloquear acción si el rol es Ventas
+        If UsuarioActual.Rol = "Ventas" Then
+            MsgBox("No tiene permiso para eliminar productos.")
+            Return
+        End If
+
         If lvProducts.SelectedItems.Count = 0 Then ' verifico que haya una fila seleccionada
             MsgBox("Por favor, seleccione un producto para eliminar.", MsgBoxStyle.Exclamation, "Selección requerida")
             Exit Sub
@@ -400,5 +443,157 @@ Public Class Productos
         Else
             busquedaAsistida(tbQueryCategory.Text)
         End If
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            printList.Clear()
+            Conectar()
+            conexion.Open()
+            ' Simplified query: only productos table and required fields
+            Dim query As String = "SELECT codigo, nombre, stock_actual, precio_compra FROM productos WHERE stock_actual < stock_minimo AND activo = 1 ORDER BY stock_actual ASC;"
+            Dim cmd As New MySqlCommand(query, conexion)
+            Dim rdr As MySqlDataReader = cmd.ExecuteReader()
+
+
+            ''Dim dt As New DataTable()
+            ''dt.Load(rdr)
+            ''MsgBox("Total de registros: " & dt.Rows.Count)
+
+
+
+
+            If rdr.HasRows Then
+                While rdr.Read()
+                    Dim line As String = String.Format("{0}|{1}|{2}|{3}", rdr("codigo").ToString(), rdr("nombre").ToString(), rdr("stock_actual").ToString(), rdr("precio_compra").ToString())
+                    printList.Add(line)
+                End While
+            End If
+            rdr.Close()
+            conexion.Close()
+
+            If printList.Count = 0 Then
+                MsgBox("No hay productos con stock mínimo.")
+                Return
+            End If
+
+            Pagina = 1
+            printDoc.DefaultPageSettings.Landscape = False
+            Dim preview As New PrintPreviewDialog()
+            preview.Document = printDoc
+            preview.Width = 900
+            preview.Height = 700
+            preview.ShowDialog()
+        Catch ex As Exception
+            MsgBox("Error preparando impresión: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub printDoc_PrintPage(sender As Object, e As PrintPageEventArgs) Handles printDoc.PrintPage
+        Dim fTitle As New Font("Segoe UI", 16, FontStyle.Bold)
+        Dim fHeader As New Font("Segoe UI", 10, FontStyle.Bold)
+        Dim fNormal As New Font("Segoe UI", 9)
+        Dim headerBrush = Brushes.White
+        Dim bodyBrush = Brushes.Black
+
+        Dim x As Integer = e.MarginBounds.Left
+        Dim y As Integer = e.MarginBounds.Top - 20
+
+        ' Fondo oscuro header area
+        e.Graphics.FillRectangle(New SolidBrush(Color.FromArgb(38, 22, 61)), e.MarginBounds.Left, y, e.MarginBounds.Width, 120)
+
+        ' Logo: intento cargar Resources\loho.jpg desde la carpeta Resources; si no existe uso pbImgProd.Image
+        Dim logoPath As String = IO.Path.Combine(My.Application.Info.DirectoryPath, "Resources", "loho.jpg")
+        Dim logoImg As Image = Nothing
+        Dim loadedFromFile As Boolean = False
+        If IO.File.Exists(logoPath) Then
+            Try
+                logoImg = Image.FromFile(logoPath)
+                loadedFromFile = True
+            Catch
+                logoImg = Nothing
+                loadedFromFile = False
+            End Try
+        End If
+
+        If logoImg Is Nothing AndAlso pbImgProd IsNot Nothing AndAlso pbImgProd.Image IsNot Nothing Then
+            logoImg = pbImgProd.Image
+            loadedFromFile = False
+        End If
+
+        If logoImg IsNot Nothing Then
+            e.Graphics.DrawImage(logoImg, x, y + 10, 120, 60)
+            If loadedFromFile Then
+                logoImg.Dispose()
+            End If
+        End If
+
+        ' Título
+        e.Graphics.DrawString("Listado de productos con stock mínimo", fTitle, headerBrush, x + 140, y + 10)
+        e.Graphics.DrawString("Empresa: DeGustan", fHeader, headerBrush, x + 140, y + 40)
+        e.Graphics.DrawString("Fecha: " & DateTime.Now.ToString("g"), fHeader, headerBrush, x + 140, y + 60)
+
+        ' Ajustar posición para la tabla
+        Dim headerTop As Integer = y + 120
+        Dim lineHeight As Integer = 22
+
+        ' Definir columnas usando el ancho imprimible
+        Dim pageWidth As Integer = e.MarginBounds.Width
+        Dim codeWidth As Integer = 120
+        Dim stockWidth As Integer = 80
+        Dim priceWidth As Integer = 120
+        Dim nameWidth As Integer = Math.Max(100, pageWidth - (codeWidth + stockWidth + priceWidth))
+
+        Dim col0 As Integer = x
+        Dim col1 As Integer = col0 + codeWidth
+        Dim col2 As Integer = col1 + nameWidth
+        Dim col3 As Integer = col2 + stockWidth
+        Dim col4 As Integer = col3 + priceWidth
+
+        ' Encabezado de tabla: fondo y texto
+        Dim hdrRect As New Rectangle(x, headerTop, pageWidth, lineHeight)
+        e.Graphics.FillRectangle(Brushes.DimGray, hdrRect)
+        e.Graphics.DrawRectangle(Pens.Black, hdrRect)
+
+        ' Encabezados por columna
+        e.Graphics.DrawString("Código", fHeader, headerBrush, New RectangleF(col0 + 4, headerTop + 2, codeWidth, lineHeight))
+        e.Graphics.DrawString("Nombre", fHeader, headerBrush, New RectangleF(col1 + 4, headerTop + 2, nameWidth, lineHeight))
+        e.Graphics.DrawString("Stock", fHeader, headerBrush, New RectangleF(col2 + 4, headerTop + 2, stockWidth, lineHeight))
+        e.Graphics.DrawString("Precio Compra", fHeader, headerBrush, New RectangleF(col3 + 4, headerTop + 2, priceWidth, lineHeight))
+
+        ' Preparar paginación basada en área utilizable debajo del encabezado
+        Dim startY As Integer = headerTop + lineHeight + 4
+        Dim availableHeight As Integer = e.MarginBounds.Bottom - startY
+        Dim itemsPerPage As Integer = Math.Max(1, availableHeight \ lineHeight)
+        Dim startIndex As Integer = (Pagina - 1) * itemsPerPage
+        Dim i As Integer = 0
+
+        ' Dibujar filas con celdas/bordes
+        For idx As Integer = startIndex To printList.Count - 1
+            If i >= itemsPerPage Then
+                Pagina += 1
+                e.HasMorePages = True
+                Return
+            End If
+
+            Dim rowY As Integer = startY + i * lineHeight
+            Dim parts = printList(idx).Split("|"c)
+
+            ' Dibujar rectángulos de celda
+            e.Graphics.DrawRectangle(Pens.Gray, col0, rowY, codeWidth, lineHeight)
+            e.Graphics.DrawRectangle(Pens.Gray, col1, rowY, nameWidth, lineHeight)
+            e.Graphics.DrawRectangle(Pens.Gray, col2, rowY, stockWidth, lineHeight)
+            e.Graphics.DrawRectangle(Pens.Gray, col3, rowY, priceWidth, lineHeight)
+
+            ' Escribir texto dentro de cada celda (pequeño padding)
+            e.Graphics.DrawString(parts(0).Trim(), fNormal, bodyBrush, New RectangleF(col0 + 4, rowY + 2, codeWidth - 8, lineHeight))
+            e.Graphics.DrawString(parts(1).Trim(), fNormal, bodyBrush, New RectangleF(col1 + 4, rowY + 2, nameWidth - 8, lineHeight))
+            e.Graphics.DrawString(parts(2).Trim(), fNormal, bodyBrush, New RectangleF(col2 + 4, rowY + 2, stockWidth - 8, lineHeight))
+            e.Graphics.DrawString(parts(3).Trim(), fNormal, bodyBrush, New RectangleF(col3 + 4, rowY + 2, priceWidth - 8, lineHeight))
+
+            i += 1
+        Next
+
+        e.HasMorePages = False
     End Sub
 End Class
