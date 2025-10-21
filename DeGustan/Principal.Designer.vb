@@ -41,6 +41,7 @@ Partial Class Principal
         Timer1 = New Timer(components)
         PanelContainer = New Panel()
         pcbBackground = New PictureBox()
+        Button1 = New Button()
         Panel1.SuspendLayout()
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
         PanelContainer.SuspendLayout()
@@ -222,9 +223,9 @@ Partial Class Principal
         btnMovement.ImageAlign = ContentAlignment.MiddleLeft
         btnMovement.Location = New Point(16, 212)
         btnMovement.Name = "btnMovement"
-        btnMovement.Size = New Size(275, 58)
+        btnMovement.Size = New Size(230, 58)
         btnMovement.TabIndex = 2
-        btnMovement.Text = "Movimientos"
+        btnMovement.Text = "Caja"
         btnMovement.UseVisualStyleBackColor = True
         ' 
         ' PictureBox7
@@ -242,6 +243,7 @@ Partial Class Principal
         ' 
         ' PanelContainer
         ' 
+        PanelContainer.Controls.Add(Button1)
         PanelContainer.Controls.Add(pcbBackground)
         PanelContainer.Dock = DockStyle.Fill
         PanelContainer.Location = New Point(225, 0)
@@ -259,6 +261,15 @@ Partial Class Principal
         pcbBackground.SizeMode = PictureBoxSizeMode.Zoom
         pcbBackground.TabIndex = 2
         pcbBackground.TabStop = False
+        ' 
+        ' Button1
+        ' 
+        Button1.Location = New Point(126, 140)
+        Button1.Name = "Button1"
+        Button1.Size = New Size(75, 23)
+        Button1.TabIndex = 3
+        Button1.Text = "Button1"
+        Button1.UseVisualStyleBackColor = True
         ' 
         ' Principal
         ' 
@@ -301,4 +312,5 @@ Partial Class Principal
     Friend WithEvents btnProducts As Button
     Friend WithEvents PanelContainer As Panel
     Friend WithEvents pcbBackground As PictureBox
+    Friend WithEvents Button1 As Button
 End Class
