@@ -1,10 +1,27 @@
-﻿Imports MySql.Data.MySqlClient
-Imports System.Drawing.Printing
+﻿Imports System.Drawing.Printing
+Imports System.IO
+Imports MySql.Data.MySqlClient
 
 Public Class Productos
     Private Pagina As Integer = 1
     Private printList As New List(Of String)()
     Private WithEvents printDoc As New PrintDocument()
+
+    Private Function ImagenABytes(img As Image) As Byte()
+        Using ms As New MemoryStream()
+            img.Save(ms, Imaging.ImageFormat.Jpeg)
+            Return ms.ToArray()
+        End Using
+    End Function
+    Private Function BytesAImagen(bytes As Byte()) As Image
+        Using ms As New MemoryStream(bytes)
+            Return Image.FromStream(ms)
+        End Using
+    End Function
+
+
+
+
 
     Private Sub AjustarColumnas()
         ' Verificamos que haya columnas
@@ -92,36 +109,37 @@ Public Class Productos
         End Try
     End Sub
 
-    Sub cargaGrilla()
+    Private Sub cargaGrilla()
         Try
             conexion.Open()
 
-            Dim query = "SELECT 
-                            p.id,
-                            p.codigo,
-                            p.nombre AS producto,
-                            p.descripcion,
-                            p.precio_compra,
-                            p.precio_venta,
-                            p.stock_actual,
-                            p.stock_minimo,
-                            p.activo,
-                            c.nombre AS categoria,
-                            pr.nombre AS proveedor,
-                            p.created_at,
-                            p.update_at
-                        FROM productos p
-                        LEFT JOIN categorias c ON p.categoria_id = c.id
-                        LEFT JOIN proveedores pr ON p.proveedor_id = pr.id
-                        ORDER BY p.activo desc, p.id ASC;"
-
+            Dim query = "
+            SELECT 
+                p.id,
+                p.codigo,
+                p.nombre AS producto,
+                p.descripcion,
+                p.precio_compra,
+                p.precio_venta,
+                p.stock_actual,
+                p.stock_minimo,
+                p.activo,
+                c.nombre AS categoria,
+                pr.nombre AS proveedor,
+                p.created_at,
+                p.update_at,
+                p.imagen
+            FROM productos p
+            LEFT JOIN categorias c ON p.categoria_id = c.id
+            LEFT JOIN proveedores pr ON p.proveedor_id = pr.id
+            ORDER BY p.activo DESC, p.id ASC;"
 
             Dim cmd = New MySqlCommand(query, conexion)
+            Dim reader As MySqlDataReader = cmd.ExecuteReader()
 
-            Dim reader As MySqlDataReader
-            reader = cmd.ExecuteReader()
+            lvProducts.Items.Clear()
+
             If reader.HasRows Then
-                lvProducts.Items.Clear()
                 While reader.Read()
                     Dim item As New ListViewItem(reader("id").ToString())
                     item.SubItems.Add(reader("codigo").ToString())
@@ -135,7 +153,19 @@ Public Class Productos
                     item.SubItems.Add(reader("proveedor").ToString())
                     item.SubItems.Add(reader("created_at").ToString())
                     item.SubItems.Add(reader("update_at").ToString())
+
+                    ' Guardar imagen como Base64 si existe, para uso interno (no visual)
+                    If Not IsDBNull(reader("imagen")) Then
+                        Dim bytes() As Byte = CType(reader("imagen"), Byte())
+                        Dim base64Img As String = Convert.ToBase64String(bytes)
+                        item.SubItems.Add(base64Img)
+                    Else
+                        item.SubItems.Add("") ' imagen vacía
+                    End If
+
+                    ' Agregar estado activo como último subitem
                     item.SubItems.Add(If(reader("activo") = True, "Sí", "No"))
+
                     lvProducts.Items.Add(item)
                 End While
             End If
@@ -143,7 +173,7 @@ Public Class Productos
             reader.Close()
             conexion.Close()
         Catch ex As Exception
-            MsgBox(ex.Message)
+            MsgBox("Error al cargar productos: " & ex.Message)
         End Try
     End Sub
 
@@ -263,21 +293,27 @@ Public Class Productos
             Return
         End If
 
-        If tbCodigo.Text.Trim() = "" Or tbName.Text.Trim() = "" Or tbSell.Text.Trim() = "" Or tbBuy.Text.Trim() = "" Or tbMin.Text.Trim() = "" Or tbCurrent.Text.Trim() = "" Or cbCategory.SelectedIndex = -1 Or cbSupplie.SelectedIndex = -1 Then
+        If tbCodigo.Text.Trim() = "" Or tbName.Text.Trim() = "" Or tbSell.Text.Trim() = "" Or tbBuy.Text.Trim() = "" Or
+       tbMin.Text.Trim() = "" Or tbCurrent.Text.Trim() = "" Or cbCategory.SelectedIndex = -1 Or cbSupplie.SelectedIndex = -1 Then
             MsgBox("Por favor, complete todos los campos.", MsgBoxStyle.Exclamation)
             Exit Sub
         End If
 
         Try
             conexion.Open()
-            Dim query As String = "INSERT INTO productos 
-                                    (codigo, nombre, descripcion, precio_compra, precio_venta, stock_actual, stock_minimo, categoria_id, proveedor_id, created_at, update_at)
-                                    VALUES
-                                    (@codigo, @nombre, @descripcion, @precio_compra, @precio_venta, @stock_actual, @stock_minimo,
-                                     (SELECT id FROM categorias WHERE nombre = @categoria LIMIT 1),
-                                     (SELECT id FROM proveedores WHERE nombre = @proveedor LIMIT 1),
-                                     NOW(), NOW())"
+
+            Dim query As String = "
+            INSERT INTO productos 
+                (codigo, nombre, descripcion, precio_compra, precio_venta, stock_actual, stock_minimo, 
+                 categoria_id, proveedor_id, imagen, created_at, update_at)
+            VALUES 
+                (@codigo, @nombre, @descripcion, @precio_compra, @precio_venta, @stock_actual, @stock_minimo,
+                 (SELECT id FROM categorias WHERE nombre = @categoria LIMIT 1),
+                 (SELECT id FROM proveedores WHERE nombre = @proveedor LIMIT 1),
+                 @imagen, NOW(), NOW())"
+
             Dim cmd As New MySqlCommand(query, conexion)
+
             cmd.Parameters.AddWithValue("@codigo", tbCodigo.Text.Trim())
             cmd.Parameters.AddWithValue("@nombre", tbName.Text.Trim())
             cmd.Parameters.AddWithValue("@descripcion", rtbDescription.Text.Trim())
@@ -287,13 +323,25 @@ Public Class Productos
             cmd.Parameters.AddWithValue("@stock_actual", Convert.ToInt32(tbCurrent.Text.Trim()))
             cmd.Parameters.AddWithValue("@categoria", cbCategory.SelectedItem.ToString())
             cmd.Parameters.AddWithValue("@proveedor", cbSupplie.SelectedItem.ToString())
+
+            ' Convertir imagen antes de agregar el parámetro
+            Dim imagenBytes As Byte() = Nothing
+            If pbImgProd.Image IsNot Nothing Then
+                imagenBytes = ImagenABytes(pbImgProd.Image)
+            End If
+
+            ' Usar MySqlParameter con tipo LongBlob
+            Dim paramImg As New MySqlParameter("@imagen", MySqlDbType.LongBlob)
+            paramImg.Value = If(imagenBytes IsNot Nothing, CType(imagenBytes, Object), DBNull.Value)
+            cmd.Parameters.Add(paramImg)
+
             cmd.ExecuteNonQuery()
 
             clearForm()
             conexion.Close()
             cargaGrilla()
         Catch ex As Exception
-            MsgBox(ex.Message)
+            MsgBox("Error al agregar producto: " & ex.Message)
         End Try
     End Sub
 
@@ -322,6 +370,20 @@ Public Class Productos
         Dim proveedor As String = item.SubItems(9).Text
         Dim idxProveedor As Integer = cbSupplie.FindStringExact(proveedor)
         cbSupplie.SelectedIndex = idxProveedor
+
+        ' Cargar imagen desde SubItem(12) si está en Base64
+        If item.SubItems.Count > 12 AndAlso Not String.IsNullOrWhiteSpace(item.SubItems(12).Text) Then
+            Try
+                Dim bytes() As Byte = Convert.FromBase64String(item.SubItems(12).Text)
+                Using ms As New MemoryStream(bytes)
+                    pbImgProd.Image = Image.FromStream(ms)
+                End Using
+            Catch ex As Exception
+
+                MsgBox("No se pudo cargar la imagen del producto: " & ex.Message)
+            End Try
+
+        End If
     End Sub
 
     Private Sub btnModify_Click(sender As Object, e As EventArgs) Handles btnModify.Click
@@ -331,14 +393,15 @@ Public Class Productos
             Return
         End If
 
-        If lvProducts.SelectedItems.Count = 0 Then ' verifico que haya una fila seleccionada
-            MsgBox("Por favor, seleccione un producto para eliminar.", MsgBoxStyle.Exclamation, "Selección requerida")
+        If lvProducts.SelectedItems.Count = 0 Then
+            MsgBox("Por favor, seleccione un producto para modificar.", MsgBoxStyle.Exclamation, "Selección requerida")
             Exit Sub
         End If
 
-        Dim selectedId As Integer = Convert.ToInt32(lvProducts.SelectedItems(0).Text) ' convierto el ID seleccionado a Integer
+        Dim selectedId As Integer = Convert.ToInt32(lvProducts.SelectedItems(0).Text)
 
-        If tbCodigo.Text.Trim() = "" Or tbName.Text.Trim() = "" Or tbSell.Text.Trim() = "" Or tbBuy.Text.Trim() = "" Or tbMin.Text.Trim() = "" Or tbCurrent.Text.Trim() = "" Or cbCategory.SelectedIndex = -1 Or cbSupplie.SelectedIndex = -1 Then
+        If tbCodigo.Text.Trim() = "" Or tbName.Text.Trim() = "" Or tbSell.Text.Trim() = "" Or tbBuy.Text.Trim() = "" Or
+       tbMin.Text.Trim() = "" Or tbCurrent.Text.Trim() = "" Or cbCategory.SelectedIndex = -1 Or cbSupplie.SelectedIndex = -1 Then
             MsgBox("Por favor, complete todos los campos.", MsgBoxStyle.Exclamation)
             Exit Sub
         End If
@@ -346,18 +409,20 @@ Public Class Productos
         Try
             conexion.Open()
 
-            Dim query As String = "UPDATE productos SET 
-                                codigo = @codigo,
-                                nombre = @nombre,
-                                descripcion = @descripcion,
-                                precio_compra = @precio_compra,
-                                precio_venta = @precio_venta,
-                                stock_actual = @stock_actual,
-                                stock_minimo = @stock_minimo,
-                                categoria_id = (SELECT id FROM categorias WHERE nombre = @categoria LIMIT 1),
-                                proveedor_id = (SELECT id FROM proveedores WHERE nombre = @proveedor LIMIT 1),
-                                update_at = NOW()
-                            WHERE id = @id"
+            Dim query As String = "
+            UPDATE productos SET 
+                codigo = @codigo,
+                nombre = @nombre,
+                descripcion = @descripcion,
+                precio_compra = @precio_compra,
+                precio_venta = @precio_venta,
+                stock_actual = @stock_actual,
+                stock_minimo = @stock_minimo,
+                categoria_id = (SELECT id FROM categorias WHERE nombre = @categoria LIMIT 1),
+                proveedor_id = (SELECT id FROM proveedores WHERE nombre = @proveedor LIMIT 1),
+                imagen = @imagen,
+                update_at = NOW()
+            WHERE id = @id"
 
             Dim cmd As New MySqlCommand(query, conexion)
             cmd.Parameters.AddWithValue("@codigo", tbCodigo.Text.Trim())
@@ -370,17 +435,30 @@ Public Class Productos
             cmd.Parameters.AddWithValue("@categoria", cbCategory.SelectedItem.ToString())
             cmd.Parameters.AddWithValue("@proveedor", cbSupplie.SelectedItem.ToString())
             cmd.Parameters.AddWithValue("@id", selectedId)
+
+            ' Convertir imagen del PictureBox a bytes
+            Dim imagenBytes As Byte() = Nothing
+            If pbImgProd.Image IsNot Nothing Then
+                Using ms As New MemoryStream()
+                    pbImgProd.Image.Save(ms, Imaging.ImageFormat.Jpeg)
+                    imagenBytes = ms.ToArray()
+                End Using
+            End If
+
+            ' Usar MySqlParameter con tipo LongBlob para evitar errores
+            Dim paramImg As New MySqlParameter("@imagen", MySqlDbType.LongBlob)
+            paramImg.Value = If(imagenBytes IsNot Nothing, CType(imagenBytes, Object), DBNull.Value)
+            cmd.Parameters.Add(paramImg)
+
             cmd.ExecuteNonQuery()
 
             conexion.Close()
             cargaGrilla()
             clearForm()
         Catch ex As Exception
-
+            MsgBox("Error al modificar el producto: " & ex.Message)
         End Try
-
     End Sub
-
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
         clearForm()
     End Sub
@@ -595,5 +673,20 @@ Public Class Productos
         Next
 
         e.HasMorePages = False
+    End Sub
+
+    Private Sub btnChangeImg_Click(sender As Object, e As EventArgs) Handles btnChangeImg.Click
+        Dim ofd As New OpenFileDialog()
+        ofd.Title = "Seleccionar imagen del producto"
+        ofd.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp"
+
+        If ofd.ShowDialog() = DialogResult.OK Then
+            Try
+                Dim img As Image = Image.FromFile(ofd.FileName)
+                pbImgProd.Image = img
+            Catch ex As Exception
+                MsgBox("No se pudo cargar la imagen: " & ex.Message)
+            End Try
+        End If
     End Sub
 End Class

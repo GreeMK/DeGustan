@@ -1,7 +1,84 @@
-﻿Imports DeGustan.ConnectorBD
+﻿Imports System.IO
+Imports System.Security.Cryptography.Xml
+Imports DeGustan.ConnectorBD
+Imports System.Drawing.Printing
 Imports MySql.Data.MySqlClient
 
+
+
+
+
+
+
+
+
+
+
+
 Public Class Movimientos
+    ' Variables del último movimiento
+    Private productoNombre As String
+    Private tipo As String
+    Private motivo As String
+    Private referencia As String
+    Private usuarioNombre As String
+    Private usuarioApellido As String
+    Private cantidad As Integer
+    Private anterior As Integer
+    Private nueva As Integer
+    Private fechaMovimiento As Date
+
+    ' Documento de impresión
+    Private WithEvents DocMovimiento As New PrintDocument
+    Private PrintPreviewDialog1 As New PrintPreviewDialog
+
+
+    ' Cargar datos del movimiento
+    Private Sub CargarMovimiento(Optional movimientoId As Integer = -1)
+        Dim connStr As String = "server=localhost;user=root;password=1234;database=degustan_mini"
+        Using conn As New MySqlConnection(connStr)
+            Dim query As String = "
+            SELECT 
+                m.tipo, m.cantidad, m.cantidad_anterior, m.cantidad_nueva, m.motivo, m.referencia, m.created_at,
+                p.nombre AS producto_nombre,
+                u.nombre AS usuario_nombre, u.apellido AS usuario_apellido
+            FROM movimientos_stock m
+            JOIN productos p ON m.producto_id = p.id
+            JOIN usuarios u ON m.usuario_id = u.id"
+
+            If movimientoId > 0 Then
+                query &= " WHERE m.id = @id"
+            Else
+                query &= " ORDER BY m.id DESC LIMIT 1"
+            End If
+
+            Dim cmd As New MySqlCommand(query, conn)
+            If movimientoId > 0 Then
+                cmd.Parameters.AddWithValue("@id", movimientoId)
+            End If
+
+            Try
+                conn.Open()
+                Using reader As MySqlDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        productoNombre = reader("producto_nombre").ToString()
+                        tipo = reader("tipo").ToString()
+                        cantidad = Convert.ToInt32(reader("cantidad"))
+                        anterior = Convert.ToInt32(reader("cantidad_anterior"))
+                        nueva = Convert.ToInt32(reader("cantidad_nueva"))
+                        motivo = reader("motivo").ToString()
+                        referencia = reader("referencia").ToString()
+                        usuarioNombre = reader("usuario_nombre").ToString()
+                        usuarioApellido = reader("usuario_apellido").ToString()
+                        fechaMovimiento = Convert.ToDateTime(reader("created_at"))
+                    End If
+                End Using
+            Catch ex As Exception
+                MsgBox("Error al obtener datos del movimiento: " & ex.Message)
+            End Try
+        End Using
+    End Sub
+
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
@@ -77,8 +154,8 @@ Public Class Movimientos
             query &= " ORDER BY m.created_at DESC;"
 
             Dim cmd As New MySqlCommand(query, conexion)
-            If productId > 0 Then cmd.Parameters.AddWithValue("@pid", productId)
-            If Not String.IsNullOrEmpty(tipo) Then cmd.Parameters.AddWithValue("@tipo", tipo)
+            'If productId > 0 Then cmd.Parameters.AddWithValue("@pid", productId)
+            'If Not String.IsNullOrEmpty(tipo) Then cmd.Parameters.AddWithValue("@tipo", tipo)
 
             Dim reader As MySqlDataReader = cmd.ExecuteReader()
             ListView1.Items.Clear()
@@ -140,7 +217,7 @@ Public Class Movimientos
             MsgBox("La cantidad debe ser positiva.")
             Return
         End If
-        Dim motivo As String = TextBox1.Text.Trim()
+        Dim motivo As String = tbmotivo.Text.Trim()
         If motivo = "" Then
             MsgBox("Ingrese un motivo.")
             Return
@@ -217,17 +294,98 @@ Public Class Movimientos
         cbProductID.SelectedIndex = -1
         cbType.SelectedIndex = -1
         tbNumber.Text = ""
-        TextBox1.Text = ""
+        tbmotivo.Text = ""
         If tbReference IsNot Nothing Then tbReference.Text = ""
     End Sub
 
-    Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
-        clearForm()
+
+    Private Sub docMovimiento_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles printMovimiento.PrintPage
+        Try
+            ' Fuentes
+            Dim fuenteTitulo As New Font("Segoe UI", 16, FontStyle.Bold)
+            Dim fuenteSeccion As New Font("Segoe UI", 12, FontStyle.Bold)
+            Dim fuenteCampo As New Font("Segoe UI", 10, FontStyle.Bold)
+            Dim fuenteValor As New Font("Segoe UI", 10)
+            Dim fuentePie As New Font("Segoe UI", 9, FontStyle.Italic)
+
+            ' Layout
+            Dim margenIzq As Integer = 60
+            Dim margenTop As Integer = 60
+            Dim anchoRemito As Integer = 520
+            Dim altoRemito As Integer = 400
+            Dim rect As New Rectangle(margenIzq, margenTop, anchoRemito, altoRemito)
+            e.Graphics.FillRectangle(Brushes.WhiteSmoke, rect)
+            e.Graphics.DrawRectangle(New Pen(Color.Gray, 2), rect)
+
+            ' Logo institucional
+            Dim rutaLogo As String = "C:\Users\User\OneDrive\Desktop\aguscrudvs\DeGustan-master\DeGustan-master\DeGustan\bin\Debug\net8.0-windows\loho.jpg"
+            If File.Exists(rutaLogo) Then
+                Dim logo As Image = Image.FromFile(rutaLogo)
+                e.Graphics.DrawImage(logo, margenIzq + 10, margenTop + 10, 80, 80)
+            End If
+
+            ' Título
+            e.Graphics.DrawString("REMITO DE MOVIMIENTO DE STOCK", fuenteTitulo, Brushes.Black, margenIzq + 110, margenTop + 30)
+
+            ' Línea divisoria
+            e.Graphics.DrawLine(Pens.Gray, margenIzq + 10, margenTop + 100, margenIzq + anchoRemito - 10, margenTop + 100)
+
+            ' Datos del remito
+            Dim yBase As Integer = margenTop + 110
+            Dim salto As Integer = 24
+            Dim xCampo As Integer = margenIzq + 20
+            Dim xValor As Integer = margenIzq + 180
+
+            e.Graphics.DrawString("Producto:", fuenteCampo, Brushes.Black, xCampo, yBase)
+            e.Graphics.DrawString(productoNombre, fuenteValor, Brushes.Black, xValor, yBase)
+
+            e.Graphics.DrawString("Tipo de movimiento:", fuenteCampo, Brushes.Black, xCampo, yBase + salto)
+            e.Graphics.DrawString(tipo, fuenteValor, Brushes.Black, xValor, yBase + salto)
+
+            e.Graphics.DrawString("Cantidad:", fuenteCampo, Brushes.Black, xCampo, yBase + salto * 2)
+            e.Graphics.DrawString(cantidad.ToString(), fuenteValor, Brushes.Black, xValor, yBase + salto * 2)
+
+            e.Graphics.DrawString("Stock anterior:", fuenteCampo, Brushes.Black, xCampo, yBase + salto * 3)
+            e.Graphics.DrawString(anterior.ToString(), fuenteValor, Brushes.Black, xValor, yBase + salto * 3)
+
+            e.Graphics.DrawString("Stock nuevo:", fuenteCampo, Brushes.Black, xCampo, yBase + salto * 4)
+            e.Graphics.DrawString(nueva.ToString(), fuenteValor, Brushes.Black, xValor, yBase + salto * 4)
+
+            e.Graphics.DrawString("Motivo:", fuenteCampo, Brushes.Black, xCampo, yBase + salto * 5)
+            e.Graphics.DrawString(motivo, fuenteValor, Brushes.Black, xValor, yBase + salto * 5)
+
+            e.Graphics.DrawString("Referencia:", fuenteCampo, Brushes.Black, xCampo, yBase + salto * 6)
+            e.Graphics.DrawString(referencia, fuenteValor, Brushes.Black, xValor, yBase + salto * 6)
+
+            e.Graphics.DrawString("Fecha:", fuenteCampo, Brushes.Black, xCampo, yBase + salto * 7)
+            e.Graphics.DrawString(fechaMovimiento.ToString("dd/MM/yyyy HH:mm"), fuenteValor, Brushes.Black, xValor, yBase + salto * 7)
+
+            e.Graphics.DrawString("Usuario responsable:", fuenteCampo, Brushes.Black, xCampo, yBase + salto * 8)
+            e.Graphics.DrawString(usuarioNombre & " " & usuarioApellido, fuenteValor, Brushes.Black, xValor, yBase + salto * 8)
+
+            ' Pie
+            Dim yPie As Integer = margenTop + altoRemito - 60
+            e.Graphics.DrawLine(Pens.Gray, margenIzq + 10, yPie - 10, margenIzq + anchoRemito - 10, yPie - 10)
+            e.Graphics.DrawString("Emitido por Degustan Mini", fuentePie, Brushes.Black, xCampo, yPie)
+            e.Graphics.DrawString("Sistema de gestión de stock", fuentePie, Brushes.Gray, xCampo, yPie + 20)
+
+        Catch ex As Exception
+            MsgBox("Error al imprimir remito: " & ex.Message)
+        End Try
+
+    End Sub
+
+
+    Private Sub btnNew_Click(sender As Object, e As EventArgs)
+        CargarMovimiento()
+        PrintPreviewDialog1.Document = printMovimiento
+        PrintPreviewDialog1.ShowDialog()
+
     End Sub
 
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        Dim prodId As Integer = -1
-        Dim tipo As String = ""
+        Dim prodId = -1
+        Dim tipo = ""
         Try
             If ComboBox1.SelectedValue IsNot Nothing Then
                 prodId = Convert.ToInt32(ComboBox1.SelectedValue)
@@ -235,11 +393,29 @@ Public Class Movimientos
         Catch
         End Try
         Try
-            If ComboBox2.SelectedItem IsNot Nothing AndAlso ComboBox2.SelectedItem.ToString() <> "" Then
-                tipo = ComboBox2.SelectedItem.ToString()
+            If ComboBox2.SelectedItem IsNot Nothing AndAlso ComboBox2.SelectedItem.ToString <> "" Then
+                tipo = ComboBox2.SelectedItem.ToString
             End If
         Catch
         End Try
         LoadMovements(prodId, tipo)
+    End Sub
+
+    Private Sub btnPritMovimiento_Click(sender As Object, e As EventArgs) Handles btnPritMovimiento.Click
+        Dim idMovimiento As Integer
+
+        If String.IsNullOrWhiteSpace(tbIdmovimiento.Text) Then
+            idMovimiento = 0 ' valor por defecto si no se ingresó nada
+        ElseIf Integer.TryParse(tbIdmovimiento.Text, idMovimiento) Then
+            ' idMovimiento ahora tiene el valor numérico ingresado
+        Else
+            MsgBox("El ID ingresado no es válido.")
+            Exit Sub
+        End If
+
+        CargarMovimiento(idMovimiento)
+        PrintPreviewDialog1.Document = printMovimiento
+        PrintPreviewDialog1.ShowDialog()
+
     End Sub
 End Class

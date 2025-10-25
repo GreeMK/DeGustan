@@ -81,10 +81,9 @@ Partial Class Productos
         ' btnClose
         ' 
         btnClose.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        btnClose.Location = New Point(1193, 0)
-        btnClose.Margin = New Padding(3, 2, 3, 2)
+        btnClose.Location = New Point(1363, 0)
         btnClose.Name = "btnClose"
-        btnClose.Size = New Size(35, 30)
+        btnClose.Size = New Size(40, 40)
         btnClose.TabIndex = 1
         btnClose.Text = "X"
         btnClose.UseVisualStyleBackColor = True
@@ -92,10 +91,9 @@ Partial Class Productos
         ' pbImgProd
         ' 
         pbImgProd.Image = My.Resources.Resources.loguito
-        pbImgProd.Location = New Point(10, 24)
-        pbImgProd.Margin = New Padding(3, 2, 3, 2)
+        pbImgProd.Location = New Point(11, 32)
         pbImgProd.Name = "pbImgProd"
-        pbImgProd.Size = New Size(144, 100)
+        pbImgProd.Size = New Size(165, 133)
         pbImgProd.SizeMode = PictureBoxSizeMode.Zoom
         pbImgProd.TabIndex = 8
         pbImgProd.TabStop = False
@@ -118,20 +116,19 @@ Partial Class Productos
         GroupBox1.Controls.Add(Label2)
         GroupBox1.Controls.Add(Label1)
         GroupBox1.ForeColor = SystemColors.Control
-        GroupBox1.Location = New Point(56, 25)
-        GroupBox1.Margin = New Padding(3, 2, 3, 2)
+        GroupBox1.Location = New Point(64, 33)
         GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(3, 2, 3, 2)
-        GroupBox1.Size = New Size(360, 569)
+        GroupBox1.Size = New Size(411, 759)
         GroupBox1.TabIndex = 9
         GroupBox1.TabStop = False
         GroupBox1.Text = "Datos"
         ' 
         ' rtbDescription
         ' 
-        rtbDescription.Location = New Point(149, 219)
+        rtbDescription.Location = New Point(170, 292)
+        rtbDescription.Margin = New Padding(3, 4, 3, 4)
         rtbDescription.Name = "rtbDescription"
-        rtbDescription.Size = New Size(154, 77)
+        rtbDescription.Size = New Size(175, 101)
         rtbDescription.TabIndex = 22
         rtbDescription.Text = ""
         ' 
@@ -139,10 +136,9 @@ Partial Class Productos
         ' 
         btnChangeImg.FlatAppearance.BorderColor = Color.FromArgb(CByte(198), CByte(149), CByte(72))
         btnChangeImg.FlatStyle = FlatStyle.Flat
-        btnChangeImg.Location = New Point(186, 52)
-        btnChangeImg.Margin = New Padding(3, 2, 3, 2)
+        btnChangeImg.Location = New Point(213, 69)
         btnChangeImg.Name = "btnChangeImg"
-        btnChangeImg.Size = New Size(82, 49)
+        btnChangeImg.Size = New Size(94, 65)
         btnChangeImg.TabIndex = 21
         btnChangeImg.Text = "Cambiar imagen"
         btnChangeImg.UseVisualStyleBackColor = True
@@ -150,38 +146,36 @@ Partial Class Productos
         ' cbSupplie
         ' 
         cbSupplie.FormattingEnabled = True
-        cbSupplie.Location = New Point(150, 347)
-        cbSupplie.Margin = New Padding(3, 2, 3, 2)
+        cbSupplie.Location = New Point(171, 463)
         cbSupplie.Name = "cbSupplie"
-        cbSupplie.Size = New Size(153, 23)
+        cbSupplie.Size = New Size(174, 28)
         cbSupplie.TabIndex = 20
         ' 
         ' Label9
         ' 
         Label9.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label9.AutoSize = True
-        Label9.Location = New Point(10, 349)
+        Label9.Location = New Point(11, 465)
         Label9.Name = "Label9"
-        Label9.Size = New Size(61, 15)
+        Label9.Size = New Size(77, 20)
         Label9.TabIndex = 19
         Label9.Text = "Proveedor"
         ' 
         ' cbCategory
         ' 
         cbCategory.FormattingEnabled = True
-        cbCategory.Location = New Point(150, 311)
-        cbCategory.Margin = New Padding(3, 2, 3, 2)
+        cbCategory.Location = New Point(171, 415)
         cbCategory.Name = "cbCategory"
-        cbCategory.Size = New Size(153, 23)
+        cbCategory.Size = New Size(174, 28)
         cbCategory.TabIndex = 18
         ' 
         ' Label8
         ' 
         Label8.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label8.AutoSize = True
-        Label8.Location = New Point(10, 313)
+        Label8.Location = New Point(11, 417)
         Label8.Name = "Label8"
-        Label8.Size = New Size(58, 15)
+        Label8.Size = New Size(74, 20)
         Label8.TabIndex = 17
         Label8.Text = "Categoría"
         ' 
@@ -192,46 +186,42 @@ Partial Class Productos
         GroupBox3.Controls.Add(tbCurrent)
         GroupBox3.Controls.Add(Label7)
         GroupBox3.ForeColor = SystemColors.Control
-        GroupBox3.Location = New Point(8, 467)
-        GroupBox3.Margin = New Padding(3, 2, 3, 2)
+        GroupBox3.Location = New Point(9, 623)
         GroupBox3.Name = "GroupBox3"
-        GroupBox3.Padding = New Padding(3, 2, 3, 2)
-        GroupBox3.Size = New Size(345, 94)
+        GroupBox3.Size = New Size(394, 125)
         GroupBox3.TabIndex = 16
         GroupBox3.TabStop = False
         GroupBox3.Text = "Stock"
         ' 
         ' tbMin
         ' 
-        tbMin.Location = New Point(141, 59)
-        tbMin.Margin = New Padding(3, 2, 3, 2)
+        tbMin.Location = New Point(161, 79)
         tbMin.Name = "tbMin"
-        tbMin.Size = New Size(154, 23)
+        tbMin.Size = New Size(175, 27)
         tbMin.TabIndex = 3
         ' 
         ' Label6
         ' 
         Label6.AutoSize = True
-        Label6.Location = New Point(5, 62)
+        Label6.Location = New Point(6, 83)
         Label6.Name = "Label6"
-        Label6.Size = New Size(49, 15)
+        Label6.Size = New Size(60, 20)
         Label6.TabIndex = 2
         Label6.Text = "Mínimo"
         ' 
         ' tbCurrent
         ' 
-        tbCurrent.Location = New Point(141, 19)
-        tbCurrent.Margin = New Padding(3, 2, 3, 2)
+        tbCurrent.Location = New Point(161, 25)
         tbCurrent.Name = "tbCurrent"
-        tbCurrent.Size = New Size(154, 23)
+        tbCurrent.Size = New Size(175, 27)
         tbCurrent.TabIndex = 1
         ' 
         ' Label7
         ' 
         Label7.AutoSize = True
-        Label7.Location = New Point(5, 21)
+        Label7.Location = New Point(6, 28)
         Label7.Name = "Label7"
-        Label7.Size = New Size(41, 15)
+        Label7.Size = New Size(51, 20)
         Label7.TabIndex = 0
         Label7.Text = "Actual"
         ' 
@@ -242,72 +232,66 @@ Partial Class Productos
         GroupBox2.Controls.Add(tbBuy)
         GroupBox2.Controls.Add(Label4)
         GroupBox2.ForeColor = SystemColors.Control
-        GroupBox2.Location = New Point(8, 372)
-        GroupBox2.Margin = New Padding(3, 2, 3, 2)
+        GroupBox2.Location = New Point(9, 496)
         GroupBox2.Name = "GroupBox2"
-        GroupBox2.Padding = New Padding(3, 2, 3, 2)
-        GroupBox2.Size = New Size(345, 94)
+        GroupBox2.Size = New Size(394, 125)
         GroupBox2.TabIndex = 15
         GroupBox2.TabStop = False
         GroupBox2.Text = "Precios"
         ' 
         ' tbSell
         ' 
-        tbSell.Location = New Point(141, 59)
-        tbSell.Margin = New Padding(3, 2, 3, 2)
+        tbSell.Location = New Point(161, 79)
         tbSell.Name = "tbSell"
-        tbSell.Size = New Size(154, 23)
+        tbSell.Size = New Size(175, 27)
         tbSell.TabIndex = 3
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Location = New Point(5, 62)
+        Label5.Location = New Point(6, 83)
         Label5.Name = "Label5"
-        Label5.Size = New Size(36, 15)
+        Label5.Size = New Size(46, 20)
         Label5.TabIndex = 2
         Label5.Text = "Venta"
         ' 
         ' tbBuy
         ' 
-        tbBuy.Location = New Point(141, 19)
-        tbBuy.Margin = New Padding(3, 2, 3, 2)
+        tbBuy.Location = New Point(161, 25)
         tbBuy.Name = "tbBuy"
-        tbBuy.Size = New Size(154, 23)
+        tbBuy.Size = New Size(175, 27)
         tbBuy.TabIndex = 1
         ' 
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Location = New Point(5, 21)
+        Label4.Location = New Point(6, 28)
         Label4.Name = "Label4"
-        Label4.Size = New Size(50, 15)
+        Label4.Size = New Size(62, 20)
         Label4.TabIndex = 0
         Label4.Text = "Compra"
         ' 
         ' tbName
         ' 
-        tbName.Location = New Point(150, 184)
-        tbName.Margin = New Padding(3, 2, 3, 2)
+        tbName.Location = New Point(171, 245)
         tbName.Name = "tbName"
-        tbName.Size = New Size(154, 23)
+        tbName.Size = New Size(175, 27)
         tbName.TabIndex = 14
         ' 
         ' tbCodigo
         ' 
-        tbCodigo.Location = New Point(150, 150)
-        tbCodigo.Margin = New Padding(3, 2, 3, 2)
+        tbCodigo.Location = New Point(171, 200)
         tbCodigo.Name = "tbCodigo"
-        tbCodigo.Size = New Size(154, 23)
+        tbCodigo.Size = New Size(175, 27)
         tbCodigo.TabIndex = 10
         ' 
         ' Label3
         ' 
         Label3.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label3.AutoSize = True
-        Label3.Location = New Point(10, 222)
+        Label3.Location = New Point(11, 296)
         Label3.Name = "Label3"
-        Label3.Size = New Size(69, 15)
+        Label3.Size = New Size(87, 20)
         Label3.TabIndex = 10
         Label3.Text = "Descripcion"
         ' 
@@ -315,9 +299,9 @@ Partial Class Productos
         ' 
         Label2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label2.AutoSize = True
-        Label2.Location = New Point(10, 187)
+        Label2.Location = New Point(11, 249)
         Label2.Name = "Label2"
-        Label2.Size = New Size(51, 15)
+        Label2.Size = New Size(64, 20)
         Label2.TabIndex = 8
         Label2.Text = "Nombre"
         ' 
@@ -325,9 +309,9 @@ Partial Class Productos
         ' 
         Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label1.AutoSize = True
-        Label1.Location = New Point(10, 152)
+        Label1.Location = New Point(11, 203)
         Label1.Name = "Label1"
-        Label1.Size = New Size(46, 15)
+        Label1.Size = New Size(58, 20)
         Label1.TabIndex = 6
         Label1.Text = "Codigo"
         ' 
@@ -339,36 +323,36 @@ Partial Class Productos
         GroupBox4.Controls.Add(Label10)
         GroupBox4.Controls.Add(Label11)
         GroupBox4.ForeColor = SystemColors.Control
-        GroupBox4.Location = New Point(633, 41)
-        GroupBox4.Margin = New Padding(3, 2, 3, 2)
+        GroupBox4.Location = New Point(723, 55)
         GroupBox4.Name = "GroupBox4"
-        GroupBox4.Padding = New Padding(3, 2, 3, 2)
-        GroupBox4.Size = New Size(296, 100)
+        GroupBox4.Size = New Size(338, 133)
         GroupBox4.TabIndex = 10
         GroupBox4.TabStop = False
         GroupBox4.Text = "Busquedas"
         ' 
         ' tbQueryCategory
         ' 
-        tbQueryCategory.Location = New Point(111, 60)
+        tbQueryCategory.Location = New Point(127, 80)
+        tbQueryCategory.Margin = New Padding(3, 4, 3, 4)
         tbQueryCategory.Name = "tbQueryCategory"
-        tbQueryCategory.Size = New Size(161, 23)
+        tbQueryCategory.Size = New Size(183, 27)
         tbQueryCategory.TabIndex = 12
         ' 
         ' tbQueryProduct
         ' 
-        tbQueryProduct.Location = New Point(111, 19)
+        tbQueryProduct.Location = New Point(127, 25)
+        tbQueryProduct.Margin = New Padding(3, 4, 3, 4)
         tbQueryProduct.Name = "tbQueryProduct"
-        tbQueryProduct.Size = New Size(161, 23)
+        tbQueryProduct.Size = New Size(183, 27)
         tbQueryProduct.TabIndex = 11
         ' 
         ' Label10
         ' 
         Label10.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label10.AutoSize = True
-        Label10.Location = New Point(8, 63)
+        Label10.Location = New Point(9, 84)
         Label10.Name = "Label10"
-        Label10.Size = New Size(58, 15)
+        Label10.Size = New Size(74, 20)
         Label10.TabIndex = 10
         Label10.Text = "Categoría"
         ' 
@@ -376,9 +360,9 @@ Partial Class Productos
         ' 
         Label11.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left
         Label11.AutoSize = True
-        Label11.Location = New Point(8, 22)
+        Label11.Location = New Point(9, 29)
         Label11.Name = "Label11"
-        Label11.Size = New Size(56, 15)
+        Label11.Size = New Size(69, 20)
         Label11.TabIndex = 8
         Label11.Text = "Producto"
         ' 
@@ -389,10 +373,9 @@ Partial Class Productos
         btnDelete.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnDelete.FlatStyle = FlatStyle.Flat
         btnDelete.ForeColor = SystemColors.Control
-        btnDelete.Location = New Point(232, 623)
-        btnDelete.Margin = New Padding(3, 2, 3, 2)
+        btnDelete.Location = New Point(265, 831)
         btnDelete.Name = "btnDelete"
-        btnDelete.Size = New Size(92, 32)
+        btnDelete.Size = New Size(105, 43)
         btnDelete.TabIndex = 14
         btnDelete.Text = "Eliminar"
         btnDelete.UseVisualStyleBackColor = True
@@ -404,10 +387,9 @@ Partial Class Productos
         btnNew.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnNew.FlatStyle = FlatStyle.Flat
         btnNew.ForeColor = SystemColors.Control
-        btnNew.Location = New Point(127, 673)
-        btnNew.Margin = New Padding(3, 2, 3, 2)
+        btnNew.Location = New Point(145, 897)
         btnNew.Name = "btnNew"
-        btnNew.Size = New Size(92, 32)
+        btnNew.Size = New Size(105, 43)
         btnNew.TabIndex = 13
         btnNew.Text = "Nuevo"
         btnNew.UseVisualStyleBackColor = True
@@ -419,10 +401,9 @@ Partial Class Productos
         btnAdd.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnAdd.FlatStyle = FlatStyle.Flat
         btnAdd.ForeColor = SystemColors.Control
-        btnAdd.Location = New Point(127, 623)
-        btnAdd.Margin = New Padding(3, 2, 3, 2)
+        btnAdd.Location = New Point(145, 831)
         btnAdd.Name = "btnAdd"
-        btnAdd.Size = New Size(92, 32)
+        btnAdd.Size = New Size(105, 43)
         btnAdd.TabIndex = 12
         btnAdd.Text = "Agregar"
         btnAdd.UseVisualStyleBackColor = True
@@ -434,10 +415,9 @@ Partial Class Productos
         btnModify.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnModify.FlatStyle = FlatStyle.Flat
         btnModify.ForeColor = SystemColors.Control
-        btnModify.Location = New Point(232, 673)
-        btnModify.Margin = New Padding(3, 2, 3, 2)
+        btnModify.Location = New Point(265, 897)
         btnModify.Name = "btnModify"
-        btnModify.Size = New Size(92, 32)
+        btnModify.Size = New Size(105, 43)
         btnModify.TabIndex = 15
         btnModify.Text = "Modificar"
         btnModify.UseVisualStyleBackColor = True
@@ -449,10 +429,9 @@ Partial Class Productos
         btnPrint.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnPrint.FlatStyle = FlatStyle.Flat
         btnPrint.ForeColor = SystemColors.Control
-        btnPrint.Location = New Point(340, 623)
-        btnPrint.Margin = New Padding(3, 2, 3, 2)
+        btnPrint.Location = New Point(389, 831)
         btnPrint.Name = "btnPrint"
-        btnPrint.Size = New Size(92, 32)
+        btnPrint.Size = New Size(105, 43)
         btnPrint.TabIndex = 16
         btnPrint.Text = "Imprimir"
         btnPrint.UseVisualStyleBackColor = True
@@ -463,9 +442,9 @@ Partial Class Productos
         Label12.AutoSize = True
         Label12.Font = New Font("Segoe UI", 12F)
         Label12.ForeColor = Color.FromArgb(CByte(198), CByte(149), CByte(72))
-        Label12.Location = New Point(1088, 3)
+        Label12.Location = New Point(1243, 4)
         Label12.Name = "Label12"
-        Label12.Size = New Size(80, 21)
+        Label12.Size = New Size(101, 28)
         Label12.TabIndex = 16
         Label12.Text = "Productos"
         ' 
@@ -474,9 +453,10 @@ Partial Class Productos
         lvProducts.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         lvProducts.Columns.AddRange(New ColumnHeader() {colID, colCodigo, colName, colDescription, colBuy, colSell, colCurrent, colMin, colCategory, colSupplie, colCreated_at, colUpdate_at, colActive})
         lvProducts.FullRowSelect = True
-        lvProducts.Location = New Point(503, 165)
+        lvProducts.Location = New Point(575, 220)
+        lvProducts.Margin = New Padding(3, 4, 3, 4)
         lvProducts.Name = "lvProducts"
-        lvProducts.Size = New Size(675, 540)
+        lvProducts.Size = New Size(771, 719)
         lvProducts.TabIndex = 17
         lvProducts.UseCompatibleStateImageBehavior = False
         lvProducts.View = View.Details
@@ -536,10 +516,10 @@ Partial Class Productos
         ' 
         ' Productos
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
-        ClientSize = New Size(1229, 781)
+        ClientSize = New Size(1405, 1041)
         Controls.Add(lvProducts)
         Controls.Add(Label12)
         Controls.Add(btnModify)
@@ -551,7 +531,6 @@ Partial Class Productos
         Controls.Add(btnClose)
         Controls.Add(btnPrint)
         FormBorderStyle = FormBorderStyle.None
-        Margin = New Padding(3, 2, 3, 2)
         Name = "Productos"
         Text = "Productos"
         CType(pbImgProd, ComponentModel.ISupportInitialize).EndInit()
