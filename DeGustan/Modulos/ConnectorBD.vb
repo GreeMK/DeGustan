@@ -9,9 +9,18 @@ Module ConnectorBD
         Try
             ' Genero conexion nueva
             conexion = New MySqlConnection
-
             Dim cadena As String
-            cadena = My.Computer.FileSystem.ReadAllText(My.Application.Info.DirectoryPath + "/dataConnect.txt")
+
+            Dim ruta As String = My.Application.Info.DirectoryPath & "\coneccionbd.txt"
+
+            If System.IO.File.Exists(ruta) Then
+                cadena = My.Computer.FileSystem.ReadAllText(ruta)
+            Else
+                MsgBox("El archivo coneccionbd.txt no se encuentra en la carpeta de la aplicación.")
+                Exit Sub
+            End If
+
+            'cadena = My.Computer.FileSystem.ReadAllText(My.Application.Info.DirectoryPath & "\dataConnect.txt")
 
             ' Configuro la propiedad de conexion
             conexion.ConnectionString = cadena

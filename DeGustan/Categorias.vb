@@ -13,9 +13,8 @@ Public Class Categorias
         Try
             conexion.Open()
 
-            Dim query = "SELECT * FROM categorias order by @orden"
+            Dim query = "SELECT * FROM categorias order by " & orden
             Dim cmd = New MySqlCommand(query, conexion)
-            cmd.Parameters.AddWithValue("@orden", orden)
             Dim reader = cmd.ExecuteReader()
 
             If reader.HasRows Then

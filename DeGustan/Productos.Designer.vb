@@ -55,6 +55,7 @@ Partial Class Productos
         btnNew = New Button()
         btnAdd = New Button()
         btnModify = New Button()
+        btnPrint = New Button()
         Label12 = New Label()
         lvProducts = New ListView()
         colID = New ColumnHeader()
@@ -441,6 +442,21 @@ Partial Class Productos
         btnModify.Text = "Modificar"
         btnModify.UseVisualStyleBackColor = True
         ' 
+        ' btnPrint
+        ' 
+        btnPrint.Anchor = AnchorStyles.Left
+        btnPrint.FlatAppearance.BorderColor = Color.FromArgb(CByte(198), CByte(149), CByte(72))
+        btnPrint.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
+        btnPrint.FlatStyle = FlatStyle.Flat
+        btnPrint.ForeColor = SystemColors.Control
+        btnPrint.Location = New Point(340, 623)
+        btnPrint.Margin = New Padding(3, 2, 3, 2)
+        btnPrint.Name = "btnPrint"
+        btnPrint.Size = New Size(92, 32)
+        btnPrint.TabIndex = 16
+        btnPrint.Text = "Imprimir"
+        btnPrint.UseVisualStyleBackColor = True
+        ' 
         ' Label12
         ' 
         Label12.Anchor = AnchorStyles.Top Or AnchorStyles.Right
@@ -533,6 +549,7 @@ Partial Class Productos
         Controls.Add(btnAdd)
         Controls.Add(GroupBox1)
         Controls.Add(btnClose)
+        Controls.Add(btnPrint)
         FormBorderStyle = FormBorderStyle.None
         Margin = New Padding(3, 2, 3, 2)
         Name = "Productos"
@@ -580,6 +597,7 @@ Partial Class Productos
     Friend WithEvents btnNew As Button
     Friend WithEvents btnAdd As Button
     Friend WithEvents btnModify As Button
+    Friend WithEvents btnPrint As Button
     Friend WithEvents Label12 As Label
     Friend WithEvents rtbDescription As RichTextBox
     Friend WithEvents lvProducts As ListView

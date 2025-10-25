@@ -38,10 +38,10 @@ Partial Class Principal
         FlowLayoutPanel1 = New FlowLayoutPanel()
         btnMovement = New Button()
         PictureBox7 = New PictureBox()
+        lblUser = New Label()
         Timer1 = New Timer(components)
         PanelContainer = New Panel()
         pcbBackground = New PictureBox()
-        Button1 = New Button()
         Panel1.SuspendLayout()
         CType(PictureBox7, ComponentModel.ISupportInitialize).BeginInit()
         PanelContainer.SuspendLayout()
@@ -64,6 +64,7 @@ Partial Class Principal
         Panel1.Controls.Add(FlowLayoutPanel1)
         Panel1.Controls.Add(btnMovement)
         Panel1.Controls.Add(PictureBox7)
+        Panel1.Controls.Add(lblUser)
         Panel1.Dock = DockStyle.Left
         Panel1.Location = New Point(0, 0)
         Panel1.MaximumSize = New Size(225, 0)
@@ -110,6 +111,7 @@ Partial Class Principal
         ' btnUsers
         ' 
         btnUsers.Anchor = AnchorStyles.Left
+        btnUsers.Cursor = Cursors.IBeam
         btnUsers.FlatAppearance.BorderSize = 0
         btnUsers.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnUsers.FlatStyle = FlatStyle.Flat
@@ -118,6 +120,7 @@ Partial Class Principal
         btnUsers.Image = CType(resources.GetObject("btnUsers.Image"), Image)
         btnUsers.ImageAlign = ContentAlignment.MiddleLeft
         btnUsers.Location = New Point(13, 468)
+        btnUsers.Margin = New Padding(10)
         btnUsers.Name = "btnUsers"
         btnUsers.Size = New Size(252, 58)
         btnUsers.TabIndex = 14
@@ -136,6 +139,7 @@ Partial Class Principal
         ' btnSuppliers
         ' 
         btnSuppliers.Anchor = AnchorStyles.Left
+        btnSuppliers.Cursor = Cursors.IBeam
         btnSuppliers.FlatAppearance.BorderSize = 0
         btnSuppliers.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnSuppliers.FlatStyle = FlatStyle.Flat
@@ -144,6 +148,7 @@ Partial Class Principal
         btnSuppliers.Image = CType(resources.GetObject("btnSuppliers.Image"), Image)
         btnSuppliers.ImageAlign = ContentAlignment.MiddleLeft
         btnSuppliers.Location = New Point(13, 404)
+        btnSuppliers.Margin = New Padding(10)
         btnSuppliers.Name = "btnSuppliers"
         btnSuppliers.Size = New Size(280, 58)
         btnSuppliers.TabIndex = 12
@@ -162,6 +167,7 @@ Partial Class Principal
         ' btnCategorys
         ' 
         btnCategorys.Anchor = AnchorStyles.Left
+        btnCategorys.Cursor = Cursors.IBeam
         btnCategorys.FlatAppearance.BorderSize = 0
         btnCategorys.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnCategorys.FlatStyle = FlatStyle.Flat
@@ -170,6 +176,7 @@ Partial Class Principal
         btnCategorys.Image = CType(resources.GetObject("btnCategorys.Image"), Image)
         btnCategorys.ImageAlign = ContentAlignment.MiddleLeft
         btnCategorys.Location = New Point(13, 340)
+        btnCategorys.Margin = New Padding(10)
         btnCategorys.Name = "btnCategorys"
         btnCategorys.Size = New Size(260, 58)
         btnCategorys.TabIndex = 10
@@ -188,6 +195,7 @@ Partial Class Principal
         ' btnProducts
         ' 
         btnProducts.Anchor = AnchorStyles.Left
+        btnProducts.Cursor = Cursors.IBeam
         btnProducts.FlatAppearance.BorderSize = 0
         btnProducts.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnProducts.FlatStyle = FlatStyle.Flat
@@ -196,6 +204,7 @@ Partial Class Principal
         btnProducts.Image = CType(resources.GetObject("btnProducts.Image"), Image)
         btnProducts.ImageAlign = ContentAlignment.MiddleLeft
         btnProducts.Location = New Point(19, 276)
+        btnProducts.Margin = New Padding(10)
         btnProducts.Name = "btnProducts"
         btnProducts.Size = New Size(246, 58)
         btnProducts.TabIndex = 8
@@ -214,6 +223,7 @@ Partial Class Principal
         ' btnMovement
         ' 
         btnMovement.Anchor = AnchorStyles.Left
+        btnMovement.Cursor = Cursors.IBeam
         btnMovement.FlatAppearance.BorderSize = 0
         btnMovement.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(66), CByte(51), CByte(85))
         btnMovement.FlatStyle = FlatStyle.Flat
@@ -222,10 +232,11 @@ Partial Class Principal
         btnMovement.Image = CType(resources.GetObject("btnMovement.Image"), Image)
         btnMovement.ImageAlign = ContentAlignment.MiddleLeft
         btnMovement.Location = New Point(16, 212)
+        btnMovement.Margin = New Padding(10)
         btnMovement.Name = "btnMovement"
-        btnMovement.Size = New Size(230, 58)
+        btnMovement.Size = New Size(275, 59)
         btnMovement.TabIndex = 2
-        btnMovement.Text = "Caja"
+        btnMovement.Text = "Movimientos"
         btnMovement.UseVisualStyleBackColor = True
         ' 
         ' PictureBox7
@@ -238,12 +249,22 @@ Partial Class Principal
         PictureBox7.TabIndex = 6
         PictureBox7.TabStop = False
         ' 
+        ' lblUser
+        ' 
+        lblUser.AutoSize = True
+        lblUser.Font = New Font("Segoe UI", 9F)
+        lblUser.ForeColor = Color.White
+        lblUser.Location = New Point(13, 86)
+        lblUser.Name = "lblUser"
+        lblUser.Size = New Size(193, 25)
+        lblUser.TabIndex = 17
+        lblUser.Text = "Usuario: (no logueado)"
+        ' 
         ' Timer1
         ' 
         ' 
         ' PanelContainer
         ' 
-        PanelContainer.Controls.Add(Button1)
         PanelContainer.Controls.Add(pcbBackground)
         PanelContainer.Dock = DockStyle.Fill
         PanelContainer.Location = New Point(225, 0)
@@ -262,18 +283,9 @@ Partial Class Principal
         pcbBackground.TabIndex = 2
         pcbBackground.TabStop = False
         ' 
-        ' Button1
-        ' 
-        Button1.Location = New Point(126, 140)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(75, 23)
-        Button1.TabIndex = 3
-        Button1.Text = "Button1"
-        Button1.UseVisualStyleBackColor = True
-        ' 
         ' Principal
         ' 
-        AutoScaleDimensions = New SizeF(7F, 17F)
+        AutoScaleDimensions = New SizeF(11F, 28F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
         ClientSize = New Size(1454, 781)
@@ -287,6 +299,7 @@ Partial Class Principal
         StartPosition = FormStartPosition.CenterScreen
         WindowState = FormWindowState.Maximized
         Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
         CType(PictureBox7, ComponentModel.ISupportInitialize).EndInit()
         PanelContainer.ResumeLayout(False)
         CType(pcbBackground, ComponentModel.ISupportInitialize).EndInit()
@@ -312,5 +325,5 @@ Partial Class Principal
     Friend WithEvents btnProducts As Button
     Friend WithEvents PanelContainer As Panel
     Friend WithEvents pcbBackground As PictureBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents lblUser As Label
 End Class
