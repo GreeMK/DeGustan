@@ -11,7 +11,7 @@ Module ConnectorBD
             conexion = New MySqlConnection
             Dim cadena As String
 
-            Dim ruta As String = My.Application.Info.DirectoryPath & "\coneccionbd.txt"
+            Dim ruta As String = My.Application.Info.DirectoryPath & "\dataConnect.txt"
 
             If System.IO.File.Exists(ruta) Then
                 cadena = My.Computer.FileSystem.ReadAllText(ruta)

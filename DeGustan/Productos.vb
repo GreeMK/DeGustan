@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing.Printing
 Imports System.IO
 Imports MySql.Data.MySqlClient
+'Imports Org.BouncyCastle.Utilities
 
 Public Class Productos
     Private Pagina As Integer = 1
@@ -18,10 +19,6 @@ Public Class Productos
             Return Image.FromStream(ms)
         End Using
     End Function
-
-
-
-
 
     Private Sub AjustarColumnas()
         ' Verificamos que haya columnas
@@ -158,13 +155,20 @@ Public Class Productos
                     If Not IsDBNull(reader("imagen")) Then
                         Dim bytes() As Byte = CType(reader("imagen"), Byte())
                         Dim base64Img As String = Convert.ToBase64String(bytes)
-                        item.SubItems.Add(base64Img)
+                        item.Tag = bytes
                     Else
-                        item.SubItems.Add("") ' imagen vacía
+                        item.Tag = Nothing
                     End If
 
-                    ' Agregar estado activo como último subitem
-                    item.SubItems.Add(If(reader("activo") = True, "Sí", "No"))
+                    Dim isActive As Boolean = False
+                    If Not IsDBNull(reader("activo")) Then
+                        Try
+                            isActive = Convert.ToBoolean(reader("activo"))
+                        Catch
+                            isActive = (reader("activo").ToString() = "1")
+                        End Try
+                    End If
+                    item.SubItems.Add(If(isActive, "Sí", "No"))
 
                     lvProducts.Items.Add(item)
                 End While
@@ -260,12 +264,18 @@ Public Class Productos
 
         ' Si el rol es Ventas, deshabilitar edición y botones CRUD
         Try
-            If UsuarioActual.Rol = "Ventas" Then
+            If UsuarioActual.Rol = "ventas" Then
                 ' Deshabilitar botones de CRUD
                 btnAdd.Enabled = False
                 btnModify.Enabled = False
                 btnDelete.Enabled = False
                 btnNew.Enabled = False
+                btnAdd.Visible = False
+                btnModify.Visible = False
+                btnDelete.Visible = False
+                btnNew.Visible = False
+                btnChangeImg.Enabled = False
+                btnChangeImg.Visible = False
 
                 ' Poner campos en solo lectura / no editables
                 tbCodigo.ReadOnly = True
@@ -371,19 +381,19 @@ Public Class Productos
         Dim idxProveedor As Integer = cbSupplie.FindStringExact(proveedor)
         cbSupplie.SelectedIndex = idxProveedor
 
-        ' Cargar imagen desde SubItem(12) si está en Base64
-        If item.SubItems.Count > 12 AndAlso Not String.IsNullOrWhiteSpace(item.SubItems(12).Text) Then
-            Try
-                Dim bytes() As Byte = Convert.FromBase64String(item.SubItems(12).Text)
+        ' Cargar imagen desde Tag si existe
+        Try
+            If item.Tag IsNot Nothing Then
+                Dim bytes() As Byte = CType(item.Tag, Byte())
                 Using ms As New MemoryStream(bytes)
                     pbImgProd.Image = Image.FromStream(ms)
                 End Using
-            Catch ex As Exception
-
-                MsgBox("No se pudo cargar la imagen del producto: " & ex.Message)
-            End Try
-
-        End If
+            Else
+                pbImgProd.Image = Nothing
+            End If
+        Catch ex As Exception
+            MsgBox("No se pudo cargar la imagen del producto: " & ex.Message)
+        End Try
     End Sub
 
     Private Sub btnModify_Click(sender As Object, e As EventArgs) Handles btnModify.Click

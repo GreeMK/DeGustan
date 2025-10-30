@@ -22,7 +22,6 @@ Partial Class Principal
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Principal))
         Panel1 = New Panel()
         FlowLayoutPanel4 = New FlowLayoutPanel()
@@ -39,7 +38,6 @@ Partial Class Principal
         btnMovement = New Button()
         PictureBox7 = New PictureBox()
         lblUser = New Label()
-        Timer1 = New Timer(components)
         PanelContainer = New Panel()
         pcbBackground = New PictureBox()
         Panel1.SuspendLayout()
@@ -234,9 +232,9 @@ Partial Class Principal
         btnMovement.Location = New Point(16, 212)
         btnMovement.Margin = New Padding(10)
         btnMovement.Name = "btnMovement"
-        btnMovement.Size = New Size(275, 59)
+        btnMovement.Size = New Size(226, 59)
         btnMovement.TabIndex = 2
-        btnMovement.Text = "Movimientos"
+        btnMovement.Text = "Caja"
         btnMovement.UseVisualStyleBackColor = True
         ' 
         ' PictureBox7
@@ -256,12 +254,9 @@ Partial Class Principal
         lblUser.ForeColor = Color.White
         lblUser.Location = New Point(13, 86)
         lblUser.Name = "lblUser"
-        lblUser.Size = New Size(193, 25)
+        lblUser.Size = New Size(128, 15)
         lblUser.TabIndex = 17
         lblUser.Text = "Usuario: (no logueado)"
-        ' 
-        ' Timer1
-        ' 
         ' 
         ' PanelContainer
         ' 
@@ -285,7 +280,7 @@ Partial Class Principal
         ' 
         ' Principal
         ' 
-        AutoScaleDimensions = New SizeF(11F, 28F)
+        AutoScaleDimensions = New SizeF(7F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(49), CByte(33), CByte(70))
         ClientSize = New Size(1454, 781)
@@ -309,7 +304,6 @@ Partial Class Principal
     Friend WithEvents Panel1 As Panel
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents PictureBox6 As PictureBox
-    Friend WithEvents Timer1 As Timer
     Friend WithEvents Label6 As Label
     Friend WithEvents btnMovement As Button
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel

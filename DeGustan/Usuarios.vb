@@ -168,6 +168,8 @@ Public Class Usuarios
             tbname.Text = fila.Cells("nombre").Value.ToString()
             tbapellido.Text = fila.Cells("apellido").Value.ToString()
             tbEmail.Text = fila.Cells("email").Value.ToString()
+            dtgridUsers.Rows(e.RowIndex).Selected = True
+
 
             'Dim rol As Integer = Convert.ToInt32(fila.Cells("rol_id").Value)
 
